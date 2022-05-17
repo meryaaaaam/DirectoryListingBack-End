@@ -34,7 +34,8 @@ return new class extends Migration
             $table->boolean('isActive')->nullable();
             $table->boolean('isEmailActive')->nullable();
             $table->boolean('isAvailable')->nullable();
-            $table->boolean('LinkedIn')->nullable();
+            $table->string('LinkedIn')->nullable();
+            $table->string('Line_type')->nullable();
 
             $table->foreignId('adress_id')->nullable();
 
@@ -44,10 +45,10 @@ return new class extends Migration
             ->onDelete('cascade');
 
 
-            $table->foreignId('category_id')->nullable();
+            $table->foreignId('service_id')->nullable();
 
-            $table->foreign('category_id')
-            ->on('categories')
+            $table->foreign('service_id')
+            ->on('services')
             ->references('id')
             ->onDelete('cascade');
 

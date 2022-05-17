@@ -53,7 +53,10 @@ class ServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $respose = Service::update($id);
+        $service = Service::find($id);
+        $requests = $request->all() ;
+        $respose = $service->update($requests);
+
 
         return response()->json($respose);
     }

@@ -10,5 +10,5 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
-        'label' ];
+        'label'  , 'subcategory_id'];
 }
