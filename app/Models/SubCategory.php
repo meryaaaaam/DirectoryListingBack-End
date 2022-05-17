@@ -12,4 +12,6 @@ class SubCategory extends Model
     protected $fillable = [
         'label' , 'category_id'];
 
+
+        //kkkkkkkkkkkk
 }
