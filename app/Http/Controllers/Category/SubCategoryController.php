@@ -53,7 +53,9 @@ class SubCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $respose = SubCategory::update($id);
+
+        return response()->json($respose);
     }
 
     /**
@@ -64,6 +66,8 @@ class SubCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $respose = SubCategory::destroy($id);
+
+        return response()->json($respose);
     }
 }

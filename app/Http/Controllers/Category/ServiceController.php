@@ -53,7 +53,9 @@ class ServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $respose = SubCategory::update($id);
+
+        return response()->json($respose);
     }
 
     /**
@@ -64,6 +66,8 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $respose = SubCategory::find($id);
+
+        return response()->json($respose);
     }
 }
