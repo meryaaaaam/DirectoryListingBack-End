@@ -73,4 +73,5 @@ class CategoryController extends Controller
 
         return response()->json(['success' , 'Good'], 204  );
     }
+    public
 }
