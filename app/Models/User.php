@@ -26,6 +26,7 @@ class User extends Authenticatable  implements JWTSubject
         'firstname',
         'lastname',
         'companyname',
+        'phone',
 
 
         'photo',
@@ -36,7 +37,8 @@ class User extends Authenticatable  implements JWTSubject
         'isActive',
         'updated_at',
 
-        'adress_id'
+        'adress_id',
+        'isEmailActive'
         //'categories_id',
 
     ];

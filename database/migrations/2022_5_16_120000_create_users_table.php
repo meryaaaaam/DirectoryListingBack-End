@@ -44,6 +44,14 @@ return new class extends Migration
             ->onDelete('cascade');
 
 
+            $table->foreignId('category_id')->nullable();
+
+            $table->foreign('category_id')
+            ->on('categories')
+            ->references('id')
+            ->onDelete('cascade');
+
+
             $table->rememberToken();
             $table->timestamps();
 

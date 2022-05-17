@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Category\ServiceController;
+use App\Http\Controllers\Category\SubCategoryController;
 use App\Http\Controllers\user\PasswordController;
 use App\Http\Controllers\user\UserController;
 use Illuminate\Http\Request;
@@ -40,5 +43,8 @@ Route::group([
 
 
 Route::apiResource("users", UserController::class);
+Route::apiResource("categories", CategoryController::class);
+Route::apiResource("sub-category", SubCategoryController::class);
+Route::apiResource("services", ServiceController::class);
 
 
