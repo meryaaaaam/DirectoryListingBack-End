@@ -70,7 +70,6 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         $respose = Service::find($id);
-
         return response()->json($respose);
     }
 }

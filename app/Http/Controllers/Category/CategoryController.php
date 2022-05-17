@@ -73,5 +73,15 @@ class CategoryController extends Controller
 
         return response()->json(['success' , 'Good'], 204  );
     }
-    public
+    public function search($label) {
+        return Category::where("label","like","%".$label."%")->get();
+    }    
+    
+    
+    public function search2(Request $request) {
+        $label = $request->label ;
+
+      //  dd($label) ;
+        return Category::where("label","like","%".$label."%")->get();
+    }
 }
