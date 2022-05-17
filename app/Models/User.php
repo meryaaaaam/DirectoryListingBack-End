@@ -38,8 +38,8 @@ class User extends Authenticatable  implements JWTSubject
         'updated_at',
 
         'adress_id',
-        'isEmailActive'
-        //'categories_id',
+        'isEmailActive',
+        'category_id',
 
     ];
 
