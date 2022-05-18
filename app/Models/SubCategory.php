@@ -13,5 +13,11 @@ class SubCategory extends Model
         'label' , 'category_id'];
 
 
-        //kkkkkkkkkkkk
-}
+
+
+        public function services()
+        {
+            return $this->hasMany(Service::class);
+        }
+
+    }

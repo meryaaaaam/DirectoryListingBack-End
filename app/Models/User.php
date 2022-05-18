@@ -41,6 +41,10 @@ class User extends Authenticatable  implements JWTSubject
         'adress_id',
         'isEmailActive',
         'service_id',
+        'NEQ' ,
+
+
+        'language'
 
     ];
 
@@ -74,5 +78,12 @@ class User extends Authenticatable  implements JWTSubject
      */
     public function getJWTCustomClaims() {
         return [];
+    }
+
+
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class , 'user_services' ,  'user_id', 'service_id');
     }
 }

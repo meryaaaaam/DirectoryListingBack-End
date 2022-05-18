@@ -38,8 +38,9 @@ Route::group([
     Route::put('users/active', [UserController::class, 'ActiveUser']);
     Route::put('/upload-image', [UserController::class, 'uploadimage']);
     Route::get("search/{label}", [CategoryController::class, 'search']);
-    Route::get("search", [CategoryController::class, 'search2']);
- 
+    Route::get("search_categories", [CategoryController::class, 'search2']);
+    Route::get("search-services/{label}", [ServiceController::class, 'search']);
+
 
 });
 
@@ -48,4 +49,10 @@ Route::apiResource("users", UserController::class);
 Route::apiResource("categories", CategoryController::class);
 Route::apiResource("sub-category", SubCategoryController::class);
 Route::apiResource("services", ServiceController::class);
+
+Route::get("test", [UserController::class, 'userservice']);
+
+
+
+
 

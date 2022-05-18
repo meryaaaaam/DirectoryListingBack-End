@@ -45,12 +45,6 @@ return new class extends Migration
             ->onDelete('cascade');
 
 
-            $table->foreignId('service_id')->nullable();
-
-            $table->foreign('service_id')
-            ->on('services')
-            ->references('id')
-            ->onDelete('cascade');
 
 
             $table->rememberToken();

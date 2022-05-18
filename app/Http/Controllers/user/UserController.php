@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\Service;
+use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -122,6 +124,21 @@ class UserController extends Controller
         }
     }
 
+
+
+    public function userservice()
+
+    {
+         $service = null ;
+        $user = User::find(1);
+        $services = Service::find(1) ;
+        $sous = SubCategory::find(1) ;
+        $sub = $services->subcategory;
+
+        return response()->json($sub);
+
+
+    }
 
 
 }
