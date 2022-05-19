@@ -10,6 +10,7 @@ use App\Http\Controllers\user\UserServiceController;
 use App\Models\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +57,7 @@ Route::apiResource("userservices", UserServiceController::class);
 Route::get("test", [UserServiceController::class, 'userservice']);
 Route::get("SearchByLabel", [CategoryController::class, 'SearchByLabel']);
 
-
+Route::get("search-user", [SearchController::class, 'pro']);
 
 
 
