@@ -12,13 +12,14 @@ class SearchController extends Controller
     //}
     public function pro(Request $request2) {
         $name = $request2->name;
-        //dd($request2);
-        $user = User::where("role","like","Pro")->where(function($query) {
-        $query->where('firstname','name')
-                ->orWhere('lastname','name');
-        })
+
+
+        $user = User::where("role","like","pro") ;
+        $q =   $user->where('firstname',"like","%".$request2->name)->orWhere('lastname' ,$name)->orwhere('username' ,$name)
+
+
         ->toSql();
-        //dd($user);
-        return response()->json($user);
+
+        return response()->json($q);
     }
-}   
+}
