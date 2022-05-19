@@ -6,6 +6,8 @@ use App\Http\Controllers\Category\ServiceController;
 use App\Http\Controllers\Category\SubCategoryController;
 use App\Http\Controllers\user\PasswordController;
 use App\Http\Controllers\user\UserController;
+use App\Http\Controllers\user\UserServiceController;
+use App\Models\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,8 +51,10 @@ Route::apiResource("users", UserController::class);
 Route::apiResource("categories", CategoryController::class);
 Route::apiResource("sub-category", SubCategoryController::class);
 Route::apiResource("services", ServiceController::class);
+Route::apiResource("userservices", UserServiceController::class);
 
-Route::get("test", [UserController::class, 'userservice']);
+Route::get("test", [UserServiceController::class, 'userservice']);
+Route::get("SearchByLabel", [CategoryController::class, 'SearchByLabel']);
 
 
 

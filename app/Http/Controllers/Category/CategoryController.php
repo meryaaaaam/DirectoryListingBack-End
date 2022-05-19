@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
 use App\Models\category;
-
+use App\Models\SubCategory;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use League\CommonMark\Extension\Attributes\Node\Attributes;
 
 class CategoryController extends Controller
 {
@@ -75,13 +77,38 @@ class CategoryController extends Controller
     }
     public function search($label) {
         return Category::where("label","like","%".$label."%")->get();
-    }    
-    
-    
+    }
+
+
     public function search2(Request $request) {
         $label = $request->label ;
 
       //  dd($label) ;
         return Category::where("label","like","%".$label."%")->get();
+    }
+
+
+    public function SearchByLabel(Request $request  )
+    {
+        $label = $request->label ;
+        $category[] = new category() ;
+
+       // $category = category::where('label' ,$request->label)->firstOrFail();
+
+        $category = category::where('label' ,$request->label)->first();
+       if($category)
+       {$id = $category->value('id') ;
+
+        $sous = SubCategory::where('category_id' ,$id)->get();
+        //dd($sous) ;
+
+        // foreach ($sous as $s)
+         //{dump($s->id);} die() ;
+        // dd($category->get('value')) ;
+
+        return response()->json(['Data'=>[$category , 'Sub Category'=> $sous ]]) ;}
+        else  return response()->json( ['message' => 'NO CONTENT'],204) ;
+
+
     }
 }

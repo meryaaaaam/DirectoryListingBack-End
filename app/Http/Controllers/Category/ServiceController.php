@@ -78,7 +78,10 @@ class ServiceController extends Controller
         $label = $request->label ;
         $res = Service::where("label","like","%".$label."%")->get();
 
-      //  dd($label) ;
-        return response()->json($res);
+
+
+        return response()->json(
+
+             $res);
     }
 }

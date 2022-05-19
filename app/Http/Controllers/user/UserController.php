@@ -126,19 +126,7 @@ class UserController extends Controller
 
 
 
-    public function userservice()
 
-    {
-         $service = null ;
-        $user = User::find(1);
-        $services = Service::find(1) ;
-        $sous = SubCategory::find(1) ;
-        $sub = $services->subcategory;
-
-        return response()->json($sub);
-
-
-    }
 
 
 }

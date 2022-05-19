@@ -17,6 +17,6 @@ class UserService extends Pivot
  * @var bool
  */
 public $incrementing = true;
-
+protected $table = 'user_services';
 
 }

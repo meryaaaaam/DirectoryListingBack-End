@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Category;
+namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\Service;
 use App\Models\SubCategory;
+use App\Models\User;
+use App\Models\UserService;
 use Illuminate\Http\Request;
 
-class SubCategoryController extends Controller
+class UserServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +18,7 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        $response = SubCategory::all();
-        return response()->json($response);
+        //
     }
 
     /**
@@ -27,7 +29,7 @@ class SubCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $respose = SubCategory::create($request->all());
+        $respose = UserService::create($request->all());
         return response()->json($respose , 200 );
     }
 
@@ -39,9 +41,7 @@ class SubCategoryController extends Controller
      */
     public function show($id)
     {
-        $respose = SubCategory::find($id);
-
-        return response()->json($respose);
+        //
     }
 
     /**
@@ -53,9 +53,7 @@ class SubCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-      //  $respose = SubCategory::update($id);
-
-      //  return response()->json($respose);
+        //
     }
 
     /**
@@ -66,8 +64,23 @@ class SubCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $respose = SubCategory::destroy($id);
-
-        return response()->json($respose);
+        //
     }
+
+
+
+    public function userservice()
+
+    {
+        $service = null ;
+        $user = User::find(1);
+        $services = Service::find(1) ;
+        $sous = SubCategory::find(1) ;
+        $sub = $services->subcategory;
+
+        return response()->json($sub);
+
+
+    }
+
 }
