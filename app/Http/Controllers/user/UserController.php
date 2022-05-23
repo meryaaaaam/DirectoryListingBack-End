@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\Adress;
+use App\Models\Province;
 use App\Models\Service;
 use App\Models\SubCategory;
 use App\Models\User;
@@ -111,7 +113,7 @@ class UserController extends Controller
     {
 
         $user = User::findOrFail($id) ;
-        dd($user) ;
+      //  dd($user->value('id')) ;
         $user->update($request->all(['isActive']));
 
        if( $user->update($request->all(['isActive']))){
@@ -126,7 +128,72 @@ class UserController extends Controller
 
 
 
+    public function isActive(Request $request, $id )
+    {
+
+        $isActive = $request->isActive ;
+        $user = User::findOrFail($id) ;
+        $user->update($$request->all());
+        return response()->json([
+
+        "message" => "user updated successfully.",
+        "data" => $user]);
+    }
 
 
 
+
+    public function update2(Request $request, $id )
+    {
+        $requests = $request->all() ;
+        $adress = $request->all(['adress']);
+        $city = $request->all(['city']);
+
+        $code = $request->all(['code']);
+        $province_id = $request->all(['province_id']);
+
+        $ad =   ['adress' => $adress,
+        'city' => $city,
+        'code' => $code ,
+        'province_id' => $province_id
+
+        ] ;
+
+        $province = Province::findOrFail($province_id) ;
+
+
+        $user = User::findOrFail($id) ;
+        $data = $user->adress ;
+      //  $adr = $adress+","+$city + "," +",";
+
+        $adresse= Adress::create( $request->all()
+      )  ;
+     //   dd($adresse->id) ;
+
+        $user->update([  "adress_id"=>  $adresse->id]);
+        $user->update($request->all()  );
+
+        return response()->json([
+
+        "message" => "user updated successfully.",
+    "data" => [$user , $adresse]]);
+    }
+
+
+
+
+
+
+
+    public function getAdress(Request $request, $id )
+{
+        $user = User::find($id) ;
+        $adress = Adress::find( $user->adress_id );
+
+        $province = Province::find($adress->province_id);
+      //  dd($adress) ;
+       // $province = Province::find($)
+       return response()->json([$user ,$adress ,$province ]) ;
+
+}
 }

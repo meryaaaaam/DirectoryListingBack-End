@@ -44,7 +44,10 @@ class User extends Authenticatable  implements JWTSubject
         'NEQ' ,
 
 
-        'language'
+        'language',
+
+
+        'created_at' , 'updated_at'
 
     ];
 
@@ -84,6 +87,11 @@ class User extends Authenticatable  implements JWTSubject
 
     public function services()
     {
-        return $this->belongsToMany(Service::class , 'user_services' ,  'user_id', 'service_id');
+        return $this->belongsToMany(Service::class );
+    }
+
+    public function UserServices()
+    {
+        return $this->belongsToMany(Service::class, 'user_services', 'user_id','service_id'   )->using(UserService::class);
     }
 }

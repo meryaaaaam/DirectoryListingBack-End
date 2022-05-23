@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Category;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Service;
+use App\Models\Province;
 use Illuminate\Http\Request;
 
-class ServiceController extends Controller
+class ProviceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::all();
-        return response()->json($services);
+        return response()->json(Province::All()) ;
     }
 
     /**
@@ -27,7 +25,7 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        $respose = Service::create($request->all());
+        $respose = Province::create($request->all());
         return response()->json($respose , 200 );
     }
 
@@ -39,9 +37,7 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
-        $respose = Service::find($id);
-
-        return response()->json($respose);
+        //
     }
 
     /**
@@ -53,12 +49,7 @@ class ServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $service = Service::find($id);
-        $requests = $request->all() ;
-        $respose = $service->update($requests);
-
-
-        return response()->json($respose);
+        //
     }
 
     /**
@@ -69,23 +60,6 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        $respose = Service::find($id);
-        return response()->json($respose);
+        //
     }
-
-
-    public function search(Request $request  ) {
-        $label = $request->label ;
-        $res = Service::where("label","like","%".$label."%")->get();
-
-
-
-        return response()->json(
-
-             $res);
-    }
-
-
-
-    
 }

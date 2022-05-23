@@ -17,15 +17,12 @@ class Service extends Model
 
         public function users()
         {
-            return $this->belongsToMany(User::class)->using(UserService::class);
+            return $this->belongsToMany(User::class , 'user_services' , 'service_id' , 'user_id')->using(UserService::class);
         }
 
 
-         /**
-     * Get the post that owns the comment.
-     */
       public function subcategory()
        {
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(SubCategory::class , 'subcategory_id');
         }
 }

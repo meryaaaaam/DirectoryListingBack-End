@@ -17,8 +17,17 @@ class Category extends Model
 
 
 
-    
+
 
 
     protected $table = 'categories';
+
+
+
+
+    public function Subcategories()
+    {
+            return $this->hasMany(SubCategory::class , 'category_id') ;
+
+    }
 }

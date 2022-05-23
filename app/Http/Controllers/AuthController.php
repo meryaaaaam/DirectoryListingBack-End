@@ -1,5 +1,8 @@
 <?php
 namespace App\Http\Controllers;
+
+use App\Models\Adress;
+use App\Models\Province;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -91,10 +94,40 @@ class AuthController extends Controller
     public function userProfile() {
        // return response()->json(auth()->user());
         if ( auth()->user() )
-        { return response()->json(auth()->user());}
+        {   return response()->json(auth()->user() ) ;  }
         else
         { return response()->json(['message' => 'Authontification required' , 404]) ;  }
     }
+
+
+    public function userProfilewithAdr() {
+        // return response()->json(auth()->user());
+         if ( auth()->user() )
+         {   $user = auth()->user() ;
+
+
+            if($user->adress_id)
+            {$adress = Adress::find( $user->adress_id );
+
+             $province = Province::find($adress->province_id);
+
+
+
+             //return response()->json($user );
+             return response()->json(["user"=>$user ,"adress"=>$adress->adress , "city"=>$adress->city , "code"=>$adress->code
+
+             ,"province_id"=>$province->name] ) ;}
+
+             else
+             {   return response()->json(["user"=>$user]) ;} }
+
+
+
+
+
+         else
+         { return response()->json(['message' => 'Authontification required' , 404]) ;  }
+     }
 
     public function getRoles() {
         // return response()->json(auth()->user());

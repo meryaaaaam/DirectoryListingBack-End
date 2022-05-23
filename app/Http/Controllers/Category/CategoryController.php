@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
 use App\Models\category;
+use App\Models\Service;
 use App\Models\SubCategory;
+use App\Models\User;
+use App\Models\UserService;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use League\CommonMark\Extension\Attributes\Node\Attributes;
@@ -107,6 +110,159 @@ class CategoryController extends Controller
         // dd($category->get('value')) ;
 
         return response()->json(['Data'=>[$category , 'Sub Category'=> $sous ]]) ;}
+        else  return response()->json( ['message' => 'NO CONTENT'],204) ;
+
+
+    }
+
+
+    public function SearchAllByUsLabel(Request $request , $label  )
+    {
+        $data[] = [] ;
+        $category[] = new category() ;
+        $sous[] = new SubCategory() ;
+        $serv[] = new Service() ;
+        $userserv[] = new UserService() ;
+
+
+
+        $category = category::where('label' ,$request->label)->first();
+       if($category)
+       {
+           $id = $category->id ;
+           $sous = SubCategory::where('category_id' ,$id)->get();
+           foreach ($sous as $s)
+           {
+
+              $serv =  Service::where('subcategory_id' ,$s->id)->get();
+
+                foreach ($serv as $sv)
+                {
+                //  dump($sv->label , $sv->id) ;
+                   $userserv = UserService::where('service_id' , $sv->id )->get() ;
+                   foreach ($userserv as $us)
+                   {  $user = User::find($us->user_id) ;
+
+
+                        $data[] = [
+                            "category" =>    $category->label ,
+
+                            "sub category" =>    $s->label ,
+                            "service" =>    $sv->label ,
+                            "user id" =>    $user
+
+                        ] ;
+
+                    }
+                }
+           }
+
+        return response()->json(['Data'=>[$data  ]]) ;
+    }
+        else  return response()->json( ['message' => 'NO CONTENT'],204) ;
+
+
+    }
+
+
+    public function SearchUserByLabel(Request $request , $label  )
+    {
+        $data[] = [] ;
+        $category[] = new category() ;
+        $sous[] = new SubCategory() ;
+        $serv[] = new Service() ;
+        $userserv[] = new UserService() ;
+
+
+
+        $category = category::where('label' ,$request->label)->first();
+       if($category)
+       {
+           $id = $category->id ;
+           $sous = SubCategory::where('category_id' ,$id)->get();
+           foreach ($sous as $s)
+           {
+
+              $serv =  Service::where('subcategory_id' ,$s->id)->get();
+
+                foreach ($serv as $sv)
+                {
+                //  dump($sv->label , $sv->id) ;
+                   $userserv = UserService::where('service_id' , $sv->id )->get() ;
+                   foreach ($userserv as $us)
+                   {  $user = User::find($us->user_id) ;
+
+
+                        $data[] = [
+                            "category" =>    $category->label ,
+
+
+                            "user id" =>    $user
+
+                        ] ;
+
+                    }
+                }
+           }
+
+        return response()->json([$data  ]) ;
+    }
+        else  return response()->json( ['message' => 'NO CONTENT'],204) ;
+
+
+    }
+
+
+    public function SearchUserByLabelID(Request $request , $id )
+    {
+        $data[] = [] ;
+        $data2[] = [] ;
+        $category[] = new category() ;
+        $sous[] = new SubCategory() ;
+        $serv[] = new Service() ;
+        $userserv[] = new UserService() ;
+
+
+
+        $category = category::where('id' ,$request->id)->first();
+       if($category)
+       {
+           $id = $category->id ;
+           $sous = SubCategory::where('category_id' ,$id)->get();
+           foreach ($sous as $s)
+           {
+
+              $serv =  Service::where('subcategory_id' ,$s->id)->get();
+
+                foreach ($serv as $sv)
+                {
+                //  dump($sv->label , $sv->id) ;
+                   $userserv = UserService::where('service_id' , $sv->id )->get() ;
+                   foreach ($userserv as $us)
+                   {  $user = User::find($us->user_id) ;
+
+
+                        $data[] = [
+                            "category" =>    $category->label ,
+
+
+                            "user id" =>    $user
+
+                        ] ;
+
+
+
+                        if(! in_array($user, $data2)) {
+                            $data2[] = $user ;
+
+                        }
+
+                    }
+                }
+           }
+
+        return response()->json($data2  ) ;
+    }
         else  return response()->json( ['message' => 'NO CONTENT'],204) ;
 
 
