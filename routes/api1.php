@@ -1,16 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\ServiceController;
 use App\Http\Controllers\Category\SubCategoryController;
 use App\Http\Controllers\user\PasswordController;
 use App\Http\Controllers\user\UserController;
-use App\Http\Controllers\user\UserServiceController;
-use App\Models\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +41,7 @@ Route::group([
     Route::get("search/{label}", [CategoryController::class, 'search']);
     Route::get("search_categories", [CategoryController::class, 'search2']);
     Route::get("search-services/{label}", [ServiceController::class, 'search']);
-
+    
 
 });
 
@@ -52,15 +50,11 @@ Route::apiResource("users", UserController::class);
 Route::apiResource("categories", CategoryController::class);
 Route::apiResource("sub-category", SubCategoryController::class);
 Route::apiResource("services", ServiceController::class);
-Route::apiResource("userservices", UserServiceController::class);
+Route::get("search-user", [SearchController::class, 'pro']);
 
-Route::get("test", [UserServiceController::class, 'userservice']);
-Route::get("SearchByLabel", [CategoryController::class, 'SearchByLabel']);
+Route::get("test", [UserController::class, 'userservice']);
 
-Route::get("search-now", [SearchController::class, 'search_now']);
-Route::get("search-user-pro", [SearchController::class, 'pro']);
-Route::get("search-user-company", [SearchController::class, 'company']);
-Route::get("search-advanced", [SearchController::class, 'advanced']);
-Route::get("search-word", [SearchController::class, 'word']);
+
+
 
 
