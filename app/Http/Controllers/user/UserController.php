@@ -159,18 +159,36 @@ class UserController extends Controller
 
         ] ;
 
-        $province = Province::findOrFail($province_id) ;
-
+        $province = Province::find($request->province_id) ;
+      //  dd($province->name);
 
         $user = User::findOrFail($id) ;
         $data = $user->adress ;
       //  $adr = $adress+","+$city + "," +",";
 
-        $adresse= Adress::create( $request->all()
-      )  ;
-     //   dd($adresse->id) ;
 
-        $user->update([  "adress_id"=>  $adresse->id]);
+
+
+      if($user->adress_id)
+      {
+        $adresse= Adress::find( $user->adress_id) ;
+        $adresse->update([  "adress"=>  $request->adress,
+                          "city"=>  $request->city,
+                          "code"=>  $request->code,
+                          "province_id"=>  $request->province_id,
+
+
+        ]);
+      }
+      else { $adresse= Adress::create( $request->all()) ;}
+
+      $adress1 = $request->adress ;
+      $city1 = $request->city ;
+      $code1 = $request->code ;
+      $province1 = $province->name ;
+      $adr = $adress1 ." ". $city1 ." ". $code1 ." ". $city1 ." ". $province1 ;
+
+        $user->update([  "adresse"=>  $adr]);
         $user->update($request->all()  );
 
         return response()->json([

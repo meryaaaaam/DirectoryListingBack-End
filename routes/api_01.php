@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\AdvancedSearchController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProviceController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\ServiceController;
 use App\Http\Controllers\Category\SubCategoryController;
-use App\Http\Controllers\ProviceController;
 use App\Http\Controllers\user\PasswordController;
 use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\user\UserServiceController;
@@ -38,12 +38,13 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
+    Route::get('/user-profile2', [AuthController::class, 'userProfilewithAdr']);
     Route::get('/roles', [AuthController::class, 'getRoles']);
     Route::post('/new_pass', [PasswordController::class, 'store']);
     Route::put('users/active', [UserController::class, 'ActiveUser']);
     Route::put('/upload-image', [UserController::class, 'uploadimage']);
     Route::get("search/{label}", [CategoryController::class, 'search']);
-   // Route::get("search_categories", [CategoryController::class, 'search2']);
+    Route::get("search_categories", [CategoryController::class, 'search2']);
     Route::get("search-services/{label}", [ServiceController::class, 'search']);
 
 
@@ -59,18 +60,7 @@ Route::apiResource("userservices", UserServiceController::class);
 Route::get("test", [UserServiceController::class, 'userservice']);
 Route::get("SearchByLabel", [CategoryController::class, 'SearchByLabel']);
 
-Route::get("search-now", [SearchController::class, 'search_now']);
-Route::get("search-user-pro", [SearchController::class, 'pro']);
-Route::get("search-user-company", [SearchController::class, 'company']);
-Route::get("search-advanced", [SearchController::class, 'advanced']);
-Route::get("search-word", [SearchController::class, 'word']);
 
-
-
-
-
-
-Route::get("search-user", [SearchController::class, 'pro']);
 Route::put("isActive/{user}", [UserController::class, 'isActive']);
 Route::put('users/isActive/{user}', [UserController::class, 'ActiveUser']);
 
@@ -86,11 +76,6 @@ Route::get("UserByIDCat/{label}", [CategoryController::class, 'SearchUserByLabel
 Route::get("UserByCat/{id}", [CategoryController::class, 'SearchUserByLabelID']);
 
 
-Route::get("searchAll", [AdvancedSearchController::class, 'Search']);
-Route::get("searchByLabel", [AdvancedSearchController::class, 'searchByLabel']);
+Route::get("searchAll", [CategoryController::class, 'Search']);
 
-Route::get("all/search", [AdvancedSearchController::class, 'Search22']);
-//Route::get("Search/AllItem", [AdvancedSearchController::class, 'advsearch']);
-
-Route::get("Search/AllItem/{label}", [AdvancedSearchController::class, 'advsearch']);
-Route::get("Search/AllItem/{label}/{location}", [AdvancedSearchController::class, 'advsearch2']);
+Route::get("search/all", [AdvancedSearchController::class, 'Search2']);

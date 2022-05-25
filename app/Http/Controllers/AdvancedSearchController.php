@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adress;
 use App\Models\Category;
 use App\Models\Service;
 use App\Models\SubCategory;
@@ -64,70 +65,7 @@ class AdvancedSearchController extends Controller
         return response()->json( ["result" => $res ] );
     }
 
-    public function Search5(Request $request ) {
-
-        $word = $request->label ;
-        $result[] =[] ;
-        $users =  User::where('firstname' ,'like' ,$word."%")->orwhere('lastname','like' , $word."%")->orwhere('companyname' ,'like' , $word."%")->get() ;
-        $cat  = Category::where('label' ,'like', $word."%")->get() ;
-        $sub =    SubCategory::where('label' ,'like' , $word."%" )->get();
-        $serv = Service::where('label' ,'like', $word."%")->get() ;
-      //  $cat = $cat->label ;
-         //   dd($cat) ;
-            foreach ($cat as $c ) {
-                 $result[] = ["label" => $c->label  ] ;
-            }
-
-            foreach ($sub as $c ) {
-                $result[] = ["label" => $c->label  ] ;
-           }
-
-           foreach ($serv as $c ) {
-            $result[] = ["label" => $c->label  ] ;
-       }
-
-            foreach ($users as $u )
-            {   if(! $u->role == 'Admin')
-               { if ($u->firstname)        {$result[] = ["label" => $u->firstname  ] ;}
-                else if($u->lastname)     {$result[] = ["label" => $u->lastname  ] ;}
-                else if($u->companyname)  {$result[] = ["label" => $u->companyname  ] ;}
-            }
-            }
-
-
-
-
-
-
-            //$result[] = $user ;
-
-          //  dd($result) ;
-       // $finalQuery = $users->union($cat)->union($sub)->union($serv)->union($users);
-
-                   return response()->json(['Result' => $result ]);
-
-        }
-
-   // public
-    public function Search4(Request $request ) {
-
-        $word = $request->label ;
-
-        $users =  User::where('firstname' ,'like' ,$word."%")->orwhere('lastname','like' , $word."%")->orwhere('companyname' ,'like' , $word."%")->get() ;
-        $cat  = Category::where('label' ,'like', $word."%")->get() ;
-        $sub =    SubCategory::where('label' ,'like' , $word."%" )->get();
-        $serv = Service::where('label' ,'like', $word."%")->get() ;
-
-        $finalQuery = $users->union($cat)->union($sub)->union($serv);
-
-                   return response()->json(['Result' => $finalQuery ]);
-
-        }
-
-
-
-
-  public function Search22(Request $request ) {
+   public function Search22(Request $request ) {
 
        $word = $request->label ;
        $new = str_replace("%20", " ", $word);
@@ -141,12 +79,12 @@ class AdvancedSearchController extends Controller
         $word = $request->all(['label']) ;
      // $res = Service::where("label","like","%".$label."%")->get();
 
-      $users =  User::where('firstname' ,'like' ,$new."%")->orwhere('lastname','like' , $new."%")->orwhere('companyname' ,'like' , $new."%")->get() ;
+      $users =  User::where('firstname' ,'like' ,$new."%")->orwhere('lastname','like' , $new."%")->orwhere('companyname' ,'like' , $new."%")->get()  ;
       $cat  = Category::where('label' ,'like', $new."%")->get() ;
       $sub =    SubCategory::where('label' ,'like' , $new."%" )->get();
       $serv = Service::where('label' ,'like', $new."%")->get() ;
 
-        if($cat)
+        if($cat->toArray())
         {
             foreach($cat as $c)
             {  // $s = SubCategory::where('label' ,'like' , $request->label."%" )->get();
@@ -168,6 +106,7 @@ class AdvancedSearchController extends Controller
                                      "logo" =>   $vusers->logo,
                                      "role" =>   $vusers->role,
                                      "adresse" =>   $vusers->adresse,
+                                     "id" => $vusers->id
 
 
 
@@ -184,7 +123,7 @@ class AdvancedSearchController extends Controller
             }
         }
 
-      if($users)
+      if($users->toArray())
       {
           foreach($users  as $u)
        {
@@ -206,6 +145,7 @@ class AdvancedSearchController extends Controller
                                         "logo" =>   $u->logo,
                                         "role" =>   $u->role,
                                         "adresse" =>   $u->adresse,
+                                        "id" => $u->id
                                    ]  ;
                     }
                 //}
@@ -214,7 +154,7 @@ class AdvancedSearchController extends Controller
 
       }
 
-        if($sub)
+        if($sub->toArray())
         {       foreach ($sub as $s) {
                     $cat = $s->category ;
                     foreach($s->services as $sv )
@@ -233,6 +173,7 @@ class AdvancedSearchController extends Controller
                                             "logo" =>   $us->logo,
                                             "role" =>   $us->role,
                                             "adresse" =>   $us->adresse,
+                                            "id" => $us->id
                                             //"Service" => $sv
 
 
@@ -243,7 +184,7 @@ class AdvancedSearchController extends Controller
 
 
 
-      if($serv)
+      if($serv->toArray())
                 {
                     foreach ($serv as $s) {
                         $servuser = UserService::where('service_id' ,$s->id)->get('user_id') ;
@@ -265,6 +206,7 @@ class AdvancedSearchController extends Controller
                                             "logo" =>   $us->logo,
                                             "role" =>   $us->rolo,
                                             "adresse" =>   $us->adresse,
+                                            "id" => $us->id
 
                                     ];
 
@@ -275,7 +217,7 @@ class AdvancedSearchController extends Controller
 
 
 
-
+        $res[] = [] ;
 
 
 
@@ -285,7 +227,7 @@ class AdvancedSearchController extends Controller
       $getIDFromUsers = User::get('id');
 
       $finalQuery = $users->union($result);
-      return response()->json($finalQuery );
+      return response()->json($result );
 
     //($getIDFromUser) ;
 
@@ -296,127 +238,6 @@ class AdvancedSearchController extends Controller
 
 
 
-  public function Search3(Request $request ) {
-
-    $word = $request->label ;
-    $new = str_replace("%20", " ", $word);
-
-    //dd($new) ;
-
-     $result1[] = [] ;
-     $result2[] = [] ;
-     $result3[] = [] ;
-     $result4[] = [] ;
-     $word = $request->all(['label']) ;
-  // $res = Service::where("label","like","%".$label."%")->get();
-
-   $users =  User::where('firstname' ,'like' ,$new."%")->orwhere('lastname','like' , $new."%")->orwhere('companyname' ,'like' , $new."%")->get() ;
-   $cat  = Category::where('label' ,'like', $new."%")->get() ;
-   $sub =    SubCategory::where('label' ,'like' , $new."%" )->get();
-   $serv = Service::where('label' ,'like', $new."%")->get() ;
-
-     if($cat)
-     {
-         foreach($cat as $c)
-         {  // $s = SubCategory::where('label' ,'like' , $request->label."%" )->get();
-             foreach($c->Subcategories as $value) {
-                 $values = $value->label ;
-                 foreach($value->services as $vs ) {
-                     $servicesvalues = $vs->label ;
-                         foreach ($vs->users as $Usv) {
-                             $vusers = $Usv ;
-                             $result4[] = [
-                                 "category" => $c->label ,
-                                  "SubCategory"=>$values,
-                                  "services"=>$servicesvalues,
-                                  "users" =>$vusers ,
-
-
-                   ] ;
-
-
-                         }
-
-                 }
-             }
-
-         }
-     }
-
-   if($users)
-   {
-       foreach($users  as $u)
-    {
-                     foreach($u->UserServices as $us)
-                 {
-                     $result1[] = [
-                                     "Category" =>  SubCategory::find($us->subcategory_id)->category->label,
-                                     "SuCategory" =>  SubCategory::find($us->subcategory_id)->label,
-                                     //"SubCategory" =>  $us->subcategory_id,
-                                     "Service" =>  $us->label,
-                                     "users" =>  User::find($us->pivot->user_id),
-                                ]  ;
-                 }
-
-     }
-
-   }
-
-     if($sub)
-     {       foreach ($sub as $s) {
-                 $cat = $s->category ;
-                 foreach($s->services as $sv )
-                 {       foreach($sv->users as $us)
-                         $users[] = $us ;
-                         $result2[] = [
-                                         "category"=> $cat->label ,
-                                         "subCategory"=> $s->label ,
-                                         "services"=> $sv->label ,
-                                         "users"=> $users ,
-                                         //"Service" => $sv
-
-
-                         ];
-                 }}
-     }
-
-
-
-
-   if($serv)
-             {
-                 foreach ($serv as $s) {
-                 $result3[] = [  "Category"=> $s->subcategory->category->label ,
-                                 "SuCategoryID" => $s->subcategory->id ,
-                                 "SubCategory" => $s->subCategory->label ,
-                                 "Service" => $s->label,
-                                 "ServiceID" => $s->id,
-                                 "users" => UserService::where('service_id' ,$s->id)->get('user_id')
-                                 ];
-
-                                   }
-             }
-
-
-
-
-
-
-
-
-
-
-
-
-   $getIDFromUsers = User::get('id');
-
-   $finalQuery = $users->union($result1)->union($result2)->union($result3);
-   return response()->json(['result' => $finalQuery ]);
-
- //($getIDFromUser) ;
-
-
-}
 
 
 
@@ -462,4 +283,356 @@ public function searchByLabel()
          return response()->json(['Result' => $result ]);
 }
 
+
+
+
+
+public function advsearch(Request $request , $label )
+{  // $users = new User ;
+
+    $res[] = [] ;
+    $word = $request->label ;
+    $new = str_replace("%20", " ", $label);
+    $users =  User::where('firstname' ,'like' ,$new."%")->orwhere('lastname','like' , $new."%")->orwhere('companyname' ,'like' , $new."%")->first();
+    $cat  = Category::where('label' ,'like', $new."%")->get()->first();
+    $sub =    SubCategory::where('label' ,'like' , $new."%" )->first();
+    //$sub =    SubCategory::where('label' ,'like' , $new."%" )->get()->toArray();
+    $serv = Service::where('label' ,'like', $new."%")->first();
+
+    if($users)
+    {
+            foreach($users->UserServices as $uuss)
+            {
+                    $list[] = [
+                     "firstname" => $users->firstname ,
+                     "lastname" => $users->lastname ,
+                     "companyname" => $users->companyname ,
+                     "role" => $users->role ,
+                     "bio" => $users->bio ,
+                     "logo" => $users->logo ,
+                     "adresse" => $users->adresse ,
+                     "email" => $users->email ,
+                     "service" => $uuss->label ,
+                     "category" => $uuss->subcategory->category->label] ;
+
+            }
+            return response()->json( ["Result" => $list] );
+    }
+    if($cat)
+    { $listusers = null ;
+        foreach ($cat->Subcategories as $subc)
+        {
+            foreach($subc->services as $servicec)
+            {
+                    foreach($servicec->users as $catc)
+                    {
+                        if($listusers !== $catc )
+                       { $listusers[] = $catc ;}
+
+                       // dump($listusers) ;
+                    }
+            }
+        }
+        // return response()->json( ["Result" => $listusers] );
+        $list = null ; $usersss = null ;
+        foreach ($listusers as $u)
+        {
+             $uu = null ;
+                    foreach ($u->UserServices as $servs)
+                    {  if($servs->label !== $uu)
+                        {  $uu[] = $servs->label ;}
+                    }
+
+                    $list[] = [
+                    "firstname" => $u->firstname ,
+                    "lastname" => $u->lastname ,
+                    "companyname" => $u->companyname ,
+                    "email" => $u->email ,
+                    "role" => $u->role ,
+                    "logo" => $u->logo ,
+                    "bio" => $u->bio ,
+                    "adresse" => $u->adress ,
+                    "services" => $uu   ,
+                    "category" => $servs->subcategory->category->label] ;
+                      $usersss[] = $u->username ;
+
+        }      $uu[] = null ;
+        dd($list['email']) ;
+        return response()->json(["Result" => $list] );
+    }
+    if($sub)
+    {
+        $subb = null ; $catt = null ;
+        $sousdeservices = $sub->services  ;
+        foreach ($sousdeservices as $ss)
+        {   foreach($ss->users as $v) {
+            foreach($v->UserServices as $vus)
+            {
+                   $services[]=  $vus->label ;
+                   if($subb !== $vus->subcategory->label) { $subb[] = $vus->subcategory->label ;}
+                   if($catt !== $vus->subcategory->category->label) { $catt[] = $vus->subcategory->category->label ;}
+
+                 //  dd($subb) ;
+
+            }
+
+
+
+             $listusers[] = [
+                                "firstname"=> $v->firstname ,
+                                "lastname"=> $v->lastname ,
+                                "companyname"=> $v->companyname ,
+                                "email"=> $v->email ,
+                                "bio"=> $v->bio ,
+                                "role"=> $v->role ,
+                                "logo"=> $v->logo ,
+                                "adresse"=> $v->adresse ,
+                               "service" => $services,
+                                "category"=>$catt ,
+                             //  "subcategory"=>$subb ,
+
+
+
+
+                               ] ;
+             $services = null ; $subb = null ;
+            }
+           // dd($services) ;
+
+          }
+          return response()->json( ["Result" => $listusers] );
+       // dd($listusers) ;
+
+
+    }
+    if($serv)
+    {
+        $userservice = UserService::where('service_id' , $serv->id)->get("user_id")  ;
+        foreach ($userservice as $us )
+       {
+           $user = User::find($us->user_id) ;
+         //  if(!($listuser == $user))
+          // {
+               $listuser[] = [
+                        "firstname"=>$user->firstname ,
+                        "lastname"=>$user->lastname ,
+                        "email"=>$user->email ,
+                        "role"=>$user->role ,
+                        "role"=>$user->logo ,
+                        "companyname"=>$user->username ,
+                        "adresse"=>$user->adresse ,
+                        "bio"=>$user->bio ,
+                        "category"=>$serv->subcategory->category->label ,
+                        //"subcategory"=>$serv->subcategory->label ,
+                        "service"=>$serv->label ,
+
+
+
+            ] ;
+        //}
+
+
+
+    }
+    // dump("serv",true , $listuser  ) ;
+    return response()->json(["Result" => $listuser] );
+    }
+
+}
+
+
+
+
+public function advsearch2(Request $request , $label , $location)
+{  // $users = new User ;
+
+    $res[] = [] ;
+    $word = $request->label ;
+    $new = str_replace("%20", " ", $label);
+   // $users =  User::where('firstname' ,'like' ,$new."%")->orwhere('lastname','like' , $new."%")->orwhere('companyname' ,'like' , $new."%")->first();
+    $cat  = Category::where('label' ,'like', $new."%")->get()->first();
+    $sub =    SubCategory::where('label' ,'like' , $new."%" )->first();
+    //$sub =    SubCategory::where('label' ,'like' , $new."%" )->get()->toArray();
+    $serv = Service::where('label' ,'like', $new."%")->first();
+
+  /*  $adress = User::where('firstname' ,'like' ,$new."%")
+                ->orwhere('lastname','like' , $new."%")
+                ->orwhere('companyname' ,'like' , $new."%")
+                ->where(function($q) use($location){
+                    $q->where('adresses.adress' , $location)
+                    ->orWhere('adresses.ville' , $location)
+                    ->orWhere('adresses.code', $location)
+                    ->orWhere('adresses.province', $location);
+                })->get();
+
+*/
+     $users = Adress::join('users', 'users.adress_id', '=', 'adresses.id')
+                 ->where('users.firstname' ,'like' ,$new."%")
+                 ->orwhere('users.lastname','like' , $new."%")
+                 ->orwhere('users.companyname' ,'like' , $new."%")
+                ->where(function($q) use($location){
+                    $q->where('adresses.adress' , $location)
+                    ->orWhere('adresses.city' , $location)
+                    ->orWhere('adresses.code', $location);
+                   // ->orWhere('adresses.province_id', $location);
+                })
+                 /*->where('adresses.adress' , $location)
+                    ->orWhere('adresses.city' , $location)
+                    ->orWhere('adresses.code', $location)
+                    ->orWhere('adresses.province_id', $location)
+                   // ->toSql() ;*/
+                  ->get(['users.*', 'adresses.*']);
+  //  dd($adress) ;
+    if($users->toArray())
+    {
+            foreach($users->UserServices as $uuss)
+            {
+                    $list[] = [
+                     "firstname" => $users->firstname ,
+                     "lastname" => $users->lastname ,
+                     "companyname" => $users->companyname ,
+                     "role" => $users->role ,
+                     "bio" => $users->bio ,
+                     "logo" => $users->logo ,
+                     "adresse" => $users->adresse ,
+                     "email" => $users->email ,
+                     "service" => $uuss->label ,
+                     "category" => $uuss->subcategory->category->label] ;
+
+            }
+            return response()->json( ["Result" => $list] );
+    }
+    if($cat)
+    {
+        foreach ($cat->Subcategories as $subc)
+        {
+            foreach($subc->services as $servicec)
+            {
+                    foreach($servicec->users as $catc)
+                    {
+                        $listusers[] = $catc ;
+                    }
+            }
+        }
+        $list = null ; $usersss = null ;
+        foreach ($listusers as $u)
+        {       $uadress = Adress::find($u->adress_id) ;
+              // trim($uadress->city, " ");
+              /* $uadress = Adress::where('id' ,$u->adress_id) ;*/
+
+               // ->orWhere('adresses.province_id', $location);
+                   // dump($uadress->city) ;
+
+                 $uu = null ;
+                 foreach ($u->UserServices as $servs)
+                    {  if($servs->label !== $uu)
+                        {  $uu[] = $servs->label ;}
+                    }
+                    if($uadress->city === $location || $uadress->adress === $location || $uadress->province_id === $location){
+
+
+
+                        $list[] = [
+
+                        "firstname" => $u->firstname ,
+                        "lastname" => $u->lastname ,
+                        "companyname" => $u->companyname ,
+                        "email" => $u->email ,
+                        "role" => $u->role ,
+                        "logo" => $u->logo ,
+                        "bio" => $u->bio ,
+                        "adresse" => $u->adress ,
+                        "services" => $uu   ,
+                        "category" => $servs->subcategory->category->label] ;
+                          $usersss[] = $u->username ; ;} else{  ;}
+
+        }      $uu[] = null  ;
+
+        for ($i = 1; $i <= count($list); $i++) {
+
+        }
+        return response()->json(["Result" => $list] );
+    }
+    if($sub)
+    {
+        $subb = null ; $catt = null ;
+        $sousdeservices = $sub->services  ;
+        foreach ($sousdeservices as $ss)
+        {   foreach($ss->users as $v) {
+            $uadress = Adress::find($v->adress_id) ;
+            foreach($v->UserServices as $vus)
+            {
+                   $services[]=  $vus->label ;
+                   if($subb !== $vus->subcategory->label) { $subb[] = $vus->subcategory->label ;}
+                   if($catt !== $vus->subcategory->category->label) { $catt[] = $vus->subcategory->category->label ;}
+
+                 //  dd($subb) ;
+
+            }
+
+
+            if($uadress->city === $location || $uadress->adress === $location || $uadress->province_id === $location){
+             $listusers[] = [
+                                "firstname"=> $v->firstname ,
+                                "lastname"=> $v->lastname ,
+                                "companyname"=> $v->companyname ,
+                                "email"=> $v->email ,
+                                "bio"=> $v->bio ,
+                                "role"=> $v->role ,
+                                "logo"=> $v->logo ,
+                                "adresse"=> $v->adresse ,
+                               "service" => $services,
+                                "category"=>$catt ,
+                             //  "subcategory"=>$subb ,
+
+
+
+
+                               ] ;}
+             $services = null ; $subb = null ;
+            }
+           // dd($services) ;
+
+          }
+          return response()->json( ["Result" => $listusers] );
+       // dd($listusers) ;
+
+
+    }
+    if($serv)
+    {
+        $userservice = UserService::where('service_id' , $serv->id)->get("user_id")  ;
+        foreach ($userservice as $us )
+       {
+           $user = User::find($us->user_id) ;
+           $uadress = Adress::find($user->adress_id) ;
+         //  if(!($listuser == $user))
+          // {
+            if($uadress->city === $location || $uadress->adress === $location || $uadress->province_id === $location){
+               $listuser[] = [
+                        "firstname"=>$user->firstname ,
+                        "lastname"=>$user->lastname ,
+                        "email"=>$user->email ,
+                        "role"=>$user->role ,
+                        "role"=>$user->logo ,
+                        "companyname"=>$user->username ,
+                        "adresse"=>$user->adresse ,
+                        "bio"=>$user->bio ,
+                        "category"=>$serv->subcategory->category->label ,
+                        //"subcategory"=>$serv->subcategory->label ,
+                        "service"=>$serv->label ,
+
+
+
+            ] ;}
+        //}
+
+
+
+    }
+    // dump("serv",true , $listuser  ) ;
+    return response()->json(["Result" => $listuser] );
+    }
+
+}
 }
