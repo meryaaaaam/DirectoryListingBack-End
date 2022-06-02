@@ -214,4 +214,26 @@ class UserController extends Controller
        return response()->json([$user ,$adress ,$province ]) ;
 
 }
+
+public function getAllusers()
+{
+    $users = User::where('role' ,'!=' ,'Admin')->get() ;
+    return response()->json( $users ) ;
+}
+
+
+
+
+public function getAllActifUsers()
+{
+    $users = User::where('role' ,'!=' ,'Admin')->where('isActive' , true)->get() ;
+    return response()->json( $users ) ;
+}
+
+
+public function getAllPredingUsers()
+{
+    $users = User::where('role' ,'!=' ,'Admin')->where('isActive' , false)->get() ;
+    return response()->json( $users ) ;
+}
 }

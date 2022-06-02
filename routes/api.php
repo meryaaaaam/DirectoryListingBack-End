@@ -56,6 +56,10 @@ Route::apiResource("sub-category", SubCategoryController::class);
 Route::apiResource("services", ServiceController::class);
 Route::apiResource("userservices", UserServiceController::class);
 
+Route::get("list/users", [UserController::class, 'getAllusers']);
+Route::get("list/users/actifs", [UserController::class, 'getAllActifUsers']);
+Route::get("list/users/preding", [UserController::class, 'getAllPredingUsers']);
+
 Route::get("test", [UserServiceController::class, 'userservice']);
 Route::get("SearchByLabel", [CategoryController::class, 'SearchByLabel']);
 

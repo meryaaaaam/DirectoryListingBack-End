@@ -294,16 +294,22 @@ public function advsearch(Request $request , $label )
     $word = $request->label ;
     $new = str_replace("%20", " ", $label);
     $users =  User::where('firstname' ,'like' ,$new."%")->orwhere('lastname','like' , $new."%")->orwhere('companyname' ,'like' , $new."%")->first();
-    $cat  = Category::where('label' ,'like', $new."%")->get()->first();
+    $cat  = Category::where('label' ,'like', $new."%")->first() ;
     $sub =    SubCategory::where('label' ,'like' , $new."%" )->first();
     //$sub =    SubCategory::where('label' ,'like' , $new."%" )->get()->toArray();
     $serv = Service::where('label' ,'like', $new."%")->first();
 
     if($users)
     {
-            foreach($users->UserServices as $uuss)
-            {
-                    $list[] = [
+        $categoriesusers = null ;
+            foreach($users->services as $uuss)
+            {  $serv[] = $uuss->label ;
+               if($categoriesusers !== null )
+               { if(!(in_array( $uuss->subcategory->category->label , $categoriesusers)) )
+                     {$categoriesusers[] = $uuss->subcategory->category->label ;}
+                } else{$categoriesusers[] = $uuss->subcategory->category->label ;}
+            }
+              $list[] = [
                      "firstname" => $users->firstname ,
                      "lastname" => $users->lastname ,
                      "companyname" => $users->companyname ,
@@ -312,11 +318,11 @@ public function advsearch(Request $request , $label )
                      "logo" => $users->logo ,
                      "adresse" => $users->adresse ,
                      "email" => $users->email ,
-                     "service" => $uuss->label ,
-                     "category" => $uuss->subcategory->category->label] ;
+                     "service" => $serv,
+                     "category" => $categoriesusers] ;
 
-            }
-            return response()->json( ["Result" => $list] );
+
+            return response()->json( ["Result" => $list]  );
     }
     if($cat)
     { $listusers = null ;
@@ -324,24 +330,33 @@ public function advsearch(Request $request , $label )
         {
             foreach($subc->services as $servicec)
             {
-                    foreach($servicec->users as $catc)
+                  foreach($servicec->users as $catc)
                     {
-                        if($listusers !== $catc )
-                       { $listusers[] = $catc ;}
+                        if($listusers !== null )
+                       {
+                        if(!(in_array( $catc->email ,  array_column($listusers, 'email')) ))
+                        $listusers[] = $catc;
+                           }
+                           else{ $listusers[] = $catc;}
 
-                       // dump($listusers) ;
+
                     }
+
+
             }
         }
-        // return response()->json( ["Result" => $listusers] );
+
+
         $list = null ; $usersss = null ;
-        foreach ($listusers as $u)
+       if($listusers)
+       { foreach ($listusers as $u)
         {
-             $uu = null ;
-                    foreach ($u->UserServices as $servs)
-                    {  if($servs->label !== $uu)
-                        {  $uu[] = $servs->label ;}
-                    }
+            $uu = null ;
+
+             foreach ($u->services as $servs)
+             {  if($servs->label !== $uu)
+                 {  $uu[] = $servs->label ;}
+             }
 
                     $list[] = [
                     "firstname" => $u->firstname ,
@@ -351,55 +366,90 @@ public function advsearch(Request $request , $label )
                     "role" => $u->role ,
                     "logo" => $u->logo ,
                     "bio" => $u->bio ,
-                    "adresse" => $u->adress ,
+                    "adresse" => $u->adresse ,
                     "services" => $uu   ,
                     "category" => $servs->subcategory->category->label] ;
-                      $usersss[] = $u->username ;
 
-        }      $uu[] = null ;
-        dd($list['email']) ;
+
+
+        }
         return response()->json(["Result" => $list] );
+       }
+       else { return response()->json(["Result" => 'No Content'] );}
+
+
     }
     if($sub)
     {
-        $subb = null ; $catt = null ;
+       ; $listeuserss = null ;
         $sousdeservices = $sub->services  ;
         foreach ($sousdeservices as $ss)
-        {   foreach($ss->users as $v) {
-            foreach($v->UserServices as $vus)
-            {
-                   $services[]=  $vus->label ;
-                   if($subb !== $vus->subcategory->label) { $subb[] = $vus->subcategory->label ;}
-                   if($catt !== $vus->subcategory->category->label) { $catt[] = $vus->subcategory->category->label ;}
-
-                 //  dd($subb) ;
-
-            }
+        {   $subb = null ; $catt = null ;
+            foreach($ss->users as $v) {
+             //  $listeuserss[] = $v ;  dd()
 
 
+               if($listeuserss !== null )
+               {   /*$key = array_search($v->email, array_column($listeuserss, 'email') );
+                 if(  (array_search($v->email, array_column($listeuserss, 'email'))) )
+                 { }
+                 else{$listeuserss[] = $v; dump( array_column($listeuserss, 'email') , $v->email) ;}
 
-             $listusers[] = [
-                                "firstname"=> $v->firstname ,
-                                "lastname"=> $v->lastname ,
-                                "companyname"=> $v->companyname ,
-                                "email"=> $v->email ,
-                                "bio"=> $v->bio ,
-                                "role"=> $v->role ,
-                                "logo"=> $v->logo ,
-                                "adresse"=> $v->adresse ,
-                               "service" => $services,
-                                "category"=>$catt ,
-                             //  "subcategory"=>$subb ,
+                 dd($key);*/
+                 if(!(in_array( $v->email ,  array_column($listeuserss, 'email')) ))
+                 $listeuserss[] = $v;
+                 }
+                 else{ $listeuserss[] = $v;}
 
 
+           }}
+
+                foreach($listeuserss as $l)
+                {
+                    foreach($v->UserServices as $vus)
+                    {$subb = null ; $catt = null ; $services=null ;
+                           $services[]=  $vus->label ;
+                           if($subb !== $vus->subcategory->label) {
+                                $subb[] = $vus->subcategory->label ;
+                            }
+                           if($catt !== $vus->subcategory->category->label) {
+                               $catt[] = $vus->subcategory->category->label ;
+                            }
+
+                         //  dd($subb) ;
+
+                    }
+
+                    $uu = null ;
+
+             foreach ($l->services as $servs)
+             {  if($servs->label !== $uu)
+                 {  $uu[] = $servs->label ;}
+             }
+                    $listusers[] = [
+                        "firstname"=> $l->firstname ,
+                        "lastname"=> $l->lastname ,
+                        "companyname"=> $l->companyname ,
+                        "email"=> $l->email ,
+                        "bio"=> $l->bio ,
+                        "role"=> $l->role ,
+                        "logo"=> $l->logo ,
+                        "adresse"=> $l->adresse ,
+                       "services" => $uu,
+                        "category"=>$servs->subcategory->category->label ,
+                       // "subcategory"=>$servs->subcategory->label  ,
 
 
-                               ] ;
-             $services = null ; $subb = null ;
-            }
+
+
+                       ] ;
+     $services = null ; $subb = null ;
+                }
+
+
            // dd($services) ;
 
-          }
+
           return response()->json( ["Result" => $listusers] );
        // dd($listusers) ;
 
