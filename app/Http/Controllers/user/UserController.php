@@ -117,12 +117,20 @@ class UserController extends Controller
         $user->update($request->all(['isActive']));
 
        if( $user->update($request->all(['isActive']))){
+           if ($user->isActive == 0){
+
+           }
+           if($user->isActive == 1){
+               
+           }
            return response()->json([
 
         "message" => "user updated successfully.",
          "data" => $user]);}
        else
-       {  return response()->json();
+       {  
+
+           return response()->json();
         }
     }
 
