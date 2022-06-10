@@ -32,8 +32,10 @@ return new class extends Migration
             $table->string('NEQ')->nullable();
             $table->string('role')->nullable();
             $table->boolean('isActive')->nullable();
+            $table->enum('status', ['approuved','rejected' , 'preding'])->default('preding');
             $table->boolean('isEmailActive')->nullable();
             $table->boolean('isAvailable')->nullable();
+            $table->boolean('IACNC')->nullable();
             $table->string('LinkedIn')->nullable();
             $table->string('Line_type')->nullable();
 
