@@ -353,7 +353,7 @@ public function note($id , Request $Req)
 {
 
     $user = User::find($id)  ;
-    $user->update(["bio" => $Req->all()]) ;
+    $user->update(["bio" => $Req->note]) ;
 
     return response()->json($user);
 }

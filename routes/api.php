@@ -79,7 +79,7 @@ Route::get("search-word", [SearchController::class, 'word']);
 
 Route::get("search-user", [SearchController::class, 'pro']);
 Route::put("isActive/{user}", [UserController::class, 'isActive']);
-Route::put('users/isActive/{user}', [UserController::class, 'ActiveUser']);
+Route::put('userss/isActive/{user}', [UserController::class, 'ActiveUser']);
 
 
 Route::apiResource("provinces", ProviceController::class);
