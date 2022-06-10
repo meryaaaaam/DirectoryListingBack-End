@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
-use App\Mail\NotifMail;
-use App\Mail\NotifMailrefus;
-use App\Models\Adress;
+use App\Models\Adress as Address;
 use App\Models\Province;
 use App\Models\Service;
 use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Mail\NotifMail;
+use App\Mail\NotifMailrefus;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
@@ -70,74 +70,26 @@ class UserController extends Controller
         "data" => $user]);
     }
 
-    //File Upload Function
-public function uploadimage(Request $request,$id)
-{
-    $user = User::find($id) ;
-  //check file
-  if ($request->hasFile('img'))
-  {
-    $filenameWithExt = $request->file('img')->getClientOriginalName();
-    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-    $extension = $request->file('img')->getClientOriginalExtension();
-    $fileNameToStore= $filename.'_'.time().'.'.$extension;
-    $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
-    $user->logo= $fileNameToStore;
-    
-   }
-   if($user->save()){
-    return response()->json(["message" => "image saved succesfully"]);
-   } else{
-    return response()->json(["message" => "something went wrong"]);
-   }
-    
-        // // $file      = $request->file('image');
-        // // Get filename with the extension
-        // $filenameWithExt = $request->file('img')->getClientOriginalName();
-        
-        // // $filename  = $file->getClientOriginalName();
-        // // Get just filename
-        // $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-        // //$extension = $file->getClientOriginalExtension();
-        // // Get just ext
-        // $extension = $request->file('img')->getClientOriginalExtension();
-        
-        // //$picture   = date('His').'-'.$filename;
-        // // Filename to store
-        // $fileNameToStore= $filename.'_'.time().'.'.$extension;
-        // // //move image to public/img folder
-        // // $file->move(public_path('img'), $picture);
-        //  // Upload Image
-        //  $path = $request->file('img')->storeAs('public/img', $fileNameToStore);
-        //  $user->logo=$fileNameToStore;
-        // return response()->json(["message" => "Image Uploaded Succesfully"]);
-  
-//   else
-//   {
-//     $fileNameToStore = 'nocontent.jpg';
-//         return response()->json(["message" => "Select image first."]);
-//   }
-}
 
 
-    // public function uploadimage(Request $request )
-    // {
-    //     $requests = $request->all() ;
-    //     $user = User::findOrFail( auth()->user()->id) ;
-    //     $photo = $user->photo ;
-    //      // La validation de données
+  /*  public function uploadimage(Request $request )
+    {
+        $requests = $request->all() ;
+        $user = User::findOrFail( auth()->user()->id) ;
+        $photo = $user->photo ;
+         // La validation de données
 
 
-    // // On modifie les informations de l'utilisateur
-    // $user->update($requests);
+    // On modifie les informations de l'utilisateur
+    $user->update($requests);
 
 
-    // // On retourne la réponse JSON
-    // return response()->json([
+    // On retourne la réponse JSON
+    return response()->json([
 
-    // "message" => "image updated successfully.",
-    // "data" => $user]);
-    // }
+    "message" => "image updated successfully.",
+    "data" => $user]);
+    }*/
 
     /**
      * Remove the specified resource from storage.
@@ -158,34 +110,24 @@ public function uploadimage(Request $request,$id)
     public function passwordchange()
     {}
 
-    // Request $request, $id 
-   
 
-    public function ActiveUser(Request $request, $id)
+
+    public function ActiveUser2(Request $request, $id )
     {
-      
+
         $user = User::findOrFail($id) ;
-        // dd($user->value('id')) ;
-        $user->update($request->all(['isActive']));
-        
-        if( $user->update($request->all(['isActive']))){
-             if ($user->isActive == 0){
-                Mail::to($user->email)->send(new NotifMailrefus());
-             }
-             if($user->isActive == 1){
-              Mail::to($user->email)->send(new NotifMail());
-            }
-            return response()->json([
+      //  dd($user->value('id')) ;
+        $user->update($request->all(['isActive' , 'status']));
 
-         "message" => "user updated successfully.",
-          "data" => $user]);}
-        else
-        {  
+       if( $user->update($request->all(['isActive'   , 'status']))){
+           return response()->json([
 
-            return response()->json();
+        "message" => "user updated successfully.",
+         "data" => $user]);}
+       else
+       {  return response()->json();
         }
     }
-
 
 
 
@@ -194,7 +136,7 @@ public function uploadimage(Request $request,$id)
 
         $isActive = $request->isActive ;
         $user = User::findOrFail($id) ;
-        $user->update($$request->all());
+        $user->update($request->all());
         return response()->json([
 
         "message" => "user updated successfully.",
@@ -232,7 +174,7 @@ public function uploadimage(Request $request,$id)
 
       if($user->adress_id)
       {
-        $adresse= Adress::find( $user->adress_id) ;
+        $adresse= Address::find( $user->adress_id) ;
         $adresse->update([  "adress"=>  $request->adress,
                           "city"=>  $request->city,
                           "code"=>  $request->code,
@@ -241,7 +183,7 @@ public function uploadimage(Request $request,$id)
 
         ]);
       }
-      else { $adresse= Adress::create( $request->all()) ;}
+      else { $adresse= Address::create( $request->all()) ;   $user->update([  "adress_id"=>  $adresse->id]);}
 
       $adress1 = $request->adress ;
       $city1 = $request->city ;
@@ -267,7 +209,7 @@ public function uploadimage(Request $request,$id)
     public function getAdress(Request $request, $id )
 {
         $user = User::find($id) ;
-        $adress = Adress::find( $user->adress_id );
+        $adress = Address::find( $user->adress_id );
 
         $province = Province::find($adress->province_id);
       //  dd($adress) ;
@@ -283,18 +225,236 @@ public function getAllusers()
 }
 
 
+public function getAllPro()
+{
+    $users = User::where('role'  ,'Pro')->get() ;
+    foreach ($users as $u )
+    {
+        $res[] = [ "id" => $u->id ,
+                 "name" => $u->firstname." ".$u->lastname] ;
+    }
+    return response()->json( ["Result" => $res] ) ;
+}
+
+
+
+public function getAllCompany()
+{
+    $users = User::where('role' ,'Company')->get() ;
+    foreach ($users as $u )
+    {
+        $res[] = [ "id" => $u->id ,
+                 "name" => $u->companyname ] ;
+    }
+    return response()->json( ["Result" => $res] ) ;
+}
+
+
+
 
 
 public function getAllActifUsers()
 {
-    $users = User::where('role' ,'!=' ,'Admin')->where('isActive' , true)->get() ;
+   // $users = User::where('role' ,'!=' ,'Admin')->where('isActive' , true)->get() ;
+    $users = User::where('role' ,'!=' ,'Admin')->where('status' , 'approuved')->get() ;
     return response()->json( $users ) ;
 }
 
 
 public function getAllPredingUsers()
 {
-    $users = User::where('role' ,'!=' ,'Admin')->where('isActive' , false)->get() ;
+    $users = User::where('role' ,'!=' ,'Admin')->where('status' , 'rejected')->get() ;
     return response()->json( $users ) ;
 }
+
+
+
+public function updateProfile(Request $request, $id)
+{
+    $user = User::find($id) ;
+     // La validation de données
+/*$this->validate($request, [
+
+    'phone' => 'max:100',
+    'city' => 'max:100',
+    'address' => 'max:100',
+    'state' => 'max:100',
+    'code' => 'max:100',
+    'email' => 'email',
+   // 'password' => 'required|min:8'
+]);*/
+
+
+if($user->address_id)
+{   $address = Address::find($user->address_id) ;
+  //  dd($address);
+    $user->update( $request->all() );
+
+    $address->update([
+        "address" => $request->address,
+        "city" => $request->city,
+        "code" => $request->code,
+        "state" => $request->state,
+
+       // "password" => bcrypt($request->password)
+    ]);
+
+
+}
+else {
+   $address = Address::create([
+        "address" => $request->address,
+        "city" => $request->city,
+        "code" => $request->code,
+        "state" => $request->state,
+
+       // "password" => bcrypt($request->password)
+    ]) ;
+    if ($user->role == 'Pro')
+    {$user->update([
+        "username" => $request->username,
+        "firtname" => $request->firstname,
+        "lastname" => $request->lastname,
+        "phone" => $request->phone,
+        "email" => $request->email,
+        "address_id" => $address->id,
+        "website" => $request->website,
+        "link" => $request->link,
+        "language" => $request->link,
+        // "password" => bcrypt($request->password)
+    ]);}
+    elseif ($user->role == 'Company')
+    {
+
+    }
+    else
+    {$user->update([
+        "username" => $request->username,
+        "firtname" => $request->firstname,
+        "lastname" => $request->lastname,
+        "phone" => $request->phone,
+        "email" => $request->email,
+
+       // "password" => bcrypt($request->password)
+    ]);}
+
+
+
+}
+// On modifie les informations de l'utilisateur
+
+
+
+// On retourne la réponse JSON
+return response()->json(["user" => $user , "address"=> $address]);
+}
+
+public function note($id , Request $Req)
+{
+
+    $user = User::find($id)  ;
+    $user->update(["bio" => $Req->all()]) ;
+
+    return response()->json($user);
+}
+
+
+
+
+ //File Upload Function
+ public function uploadimage(Request $request,$id)
+ {
+     $user = User::find($id) ;
+   //check file
+   if ($request->hasFile('img'))
+   {
+     $filenameWithExt = $request->file('img')->getClientOriginalName();
+     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+     $extension = $request->file('img')->getClientOriginalExtension();
+     $fileNameToStore= $filename.'_'.time().'.'.$extension;
+     $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
+     $user->logo= $fileNameToStore;
+
+    }
+    if($user->save()){
+     return response()->json(["message" => "image saved succesfully"]);
+    } else{
+     return response()->json(["message" => "something went wrong"]);
+    }
+
+         // // $file      = $request->file('image');
+         // // Get filename with the extension
+         // $filenameWithExt = $request->file('img')->getClientOriginalName();
+
+         // // $filename  = $file->getClientOriginalName();
+         // // Get just filename
+         // $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+         // //$extension = $file->getClientOriginalExtension();
+         // // Get just ext
+         // $extension = $request->file('img')->getClientOriginalExtension();
+
+         // //$picture   = date('His').'-'.$filename;
+         // // Filename to store
+         // $fileNameToStore= $filename.'_'.time().'.'.$extension;
+         // // //move image to public/img folder
+         // // $file->move(public_path('img'), $picture);
+         //  // Upload Image
+         //  $path = $request->file('img')->storeAs('public/img', $fileNameToStore);
+         //  $user->logo=$fileNameToStore;
+         // return response()->json(["message" => "Image Uploaded Succesfully"]);
+
+ //   else
+ //   {
+ //     $fileNameToStore = 'nocontent.jpg';
+ //         return response()->json(["message" => "Select image first."]);
+ //   }
+ }
+
+
+     // public function uploadimage(Request $request )
+     // {
+     //     $requests = $request->all() ;
+     //     $user = User::findOrFail( auth()->user()->id) ;
+     //     $photo = $user->photo ;
+     //      // La validation de données
+
+
+     // // On modifie les informations de l'utilisateur
+     // $user->update($requests);
+
+
+     // // On retourne la réponse JSON
+     // return response()->json([
+
+     // "message" => "image updated successfully.",
+     // "data" => $user]);
+     // }
+
+     public function ActiveUser(Request $request, $id)
+     {
+
+         $user = User::findOrFail($id) ;
+         // dd($user->value('id')) ;
+         $user->update($request->all(['isActive']));
+
+         if( $user->update($request->all(['isActive']))){
+              if ($user->isActive == 0){
+                 Mail::to($user->email)->send(new NotifMailrefus());
+              }
+              if($user->isActive == 1){
+               Mail::to($user->email)->send(new NotifMail());
+             }
+             return response()->json([
+
+          "message" => "user updated successfully.",
+           "data" => $user]);}
+         else
+         {
+
+             return response()->json();
+         }
+     }
+
+
+
 }

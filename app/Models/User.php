@@ -31,20 +31,22 @@ class User extends Authenticatable  implements JWTSubject
         'isTermsAccepted',
 
         'logo',
+        'photo',
         'adresse',
         'website',
         'bio',
         'role',
         'isActive',
-        'updated_at',
+        'status',
 
         'adress_id',
         'isEmailActive',
         'service_id',
         'NEQ' ,
-
+            'IACNC',
 
         'language',
+        'note' ,
 
 
         'created_at' , 'updated_at'

@@ -38,14 +38,16 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
+    Route::get('/profile', [AuthController::class, 'userProfilewithAdr']);
+
     Route::get('/roles', [AuthController::class, 'getRoles']);
     Route::post('/new_pass', [PasswordController::class, 'store']);
     Route::put('users/active', [UserController::class, 'ActiveUser']);
-    //Route::put('/upload-image', [UserController::class, 'uploadimage']);
-    Route::post('/upload-image/{user}', [UserController::class, 'uploadimage']);
-    Route::get("search/{label}", [CategoryController::class, 'search']);
+     Route::get("search/{label}", [CategoryController::class, 'search']);
    // Route::get("search_categories", [CategoryController::class, 'search2']);
     Route::get("search-services/{label}", [ServiceController::class, 'search']);
+
+    Route::post('/upload-image/{user}', [UserController::class, 'uploadimage']);
 
 
 });
@@ -82,7 +84,7 @@ Route::put('users/isActive/{user}', [UserController::class, 'ActiveUser']);
 
 Route::apiResource("provinces", ProviceController::class);
 
-Route::post('users/update/{user}', [UserController::class, 'update2']);
+Route::put('userss/update/{user}', [UserController::class, 'update2']);
 
 Route::get('users/adress/{user}', [UserController::class, 'getAdress']);
 
@@ -99,4 +101,11 @@ Route::get("all/search", [AdvancedSearchController::class, 'Search22']);
 
 Route::get("Search/AllItem/{label}", [AdvancedSearchController::class, 'advsearch']);
 Route::get("Search/AllItem/{label}/{location}", [AdvancedSearchController::class, 'advsearch2']);
+
+
+Route::get('allusers/pro', [UserController::class, 'getAllPro']);
+Route::get('allusers/company', [UserController::class, 'getAllCompany']);
+Route::put('note/{id}', [UserController::class, 'note']);
+
+
 Route::get("users/send-mail/{id}", [UserController::class, 'ActiveUser']);
