@@ -51,7 +51,9 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
             'role' => 'required|string',
-            'isActive' => 'boolean'
+            'isActive' => 'boolean',
+            'isTermsAccepted' => 'required|boolean'
+
 
         ]);
         if($validator->fails()){

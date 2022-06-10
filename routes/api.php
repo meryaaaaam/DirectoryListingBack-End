@@ -41,7 +41,8 @@ Route::group([
     Route::get('/roles', [AuthController::class, 'getRoles']);
     Route::post('/new_pass', [PasswordController::class, 'store']);
     Route::put('users/active', [UserController::class, 'ActiveUser']);
-    Route::put('/upload-image', [UserController::class, 'uploadimage']);
+    //Route::put('/upload-image', [UserController::class, 'uploadimage']);
+    Route::post('/upload-image/{user}', [UserController::class, 'uploadimage']);
     Route::get("search/{label}", [CategoryController::class, 'search']);
    // Route::get("search_categories", [CategoryController::class, 'search2']);
     Route::get("search-services/{label}", [ServiceController::class, 'search']);
@@ -98,3 +99,4 @@ Route::get("all/search", [AdvancedSearchController::class, 'Search22']);
 
 Route::get("Search/AllItem/{label}", [AdvancedSearchController::class, 'advsearch']);
 Route::get("Search/AllItem/{label}/{location}", [AdvancedSearchController::class, 'advsearch2']);
+Route::get("users/send-mail/{id}", [UserController::class, 'ActiveUser']);

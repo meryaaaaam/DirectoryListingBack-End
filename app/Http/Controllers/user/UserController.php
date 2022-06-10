@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NotifMail;
+use App\Mail\NotifMailrefus;
 use App\Models\Adress;
 use App\Models\Province;
 use App\Models\Service;
 use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -67,26 +70,74 @@ class UserController extends Controller
         "data" => $user]);
     }
 
+    //File Upload Function
+public function uploadimage(Request $request,$id)
+{
+    $user = User::find($id) ;
+  //check file
+  if ($request->hasFile('img'))
+  {
+    $filenameWithExt = $request->file('img')->getClientOriginalName();
+    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+    $extension = $request->file('img')->getClientOriginalExtension();
+    $fileNameToStore= $filename.'_'.time().'.'.$extension;
+    $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
+    $user->logo= $fileNameToStore;
+    
+   }
+   if($user->save()){
+    return response()->json(["message" => "image saved succesfully"]);
+   } else{
+    return response()->json(["message" => "something went wrong"]);
+   }
+    
+        // // $file      = $request->file('image');
+        // // Get filename with the extension
+        // $filenameWithExt = $request->file('img')->getClientOriginalName();
+        
+        // // $filename  = $file->getClientOriginalName();
+        // // Get just filename
+        // $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        // //$extension = $file->getClientOriginalExtension();
+        // // Get just ext
+        // $extension = $request->file('img')->getClientOriginalExtension();
+        
+        // //$picture   = date('His').'-'.$filename;
+        // // Filename to store
+        // $fileNameToStore= $filename.'_'.time().'.'.$extension;
+        // // //move image to public/img folder
+        // // $file->move(public_path('img'), $picture);
+        //  // Upload Image
+        //  $path = $request->file('img')->storeAs('public/img', $fileNameToStore);
+        //  $user->logo=$fileNameToStore;
+        // return response()->json(["message" => "Image Uploaded Succesfully"]);
+  
+//   else
+//   {
+//     $fileNameToStore = 'nocontent.jpg';
+//         return response()->json(["message" => "Select image first."]);
+//   }
+}
 
 
-    public function uploadimage(Request $request )
-    {
-        $requests = $request->all() ;
-        $user = User::findOrFail( auth()->user()->id) ;
-        $photo = $user->photo ;
-         // La validation de données
+    // public function uploadimage(Request $request )
+    // {
+    //     $requests = $request->all() ;
+    //     $user = User::findOrFail( auth()->user()->id) ;
+    //     $photo = $user->photo ;
+    //      // La validation de données
 
 
-    // On modifie les informations de l'utilisateur
-    $user->update($requests);
+    // // On modifie les informations de l'utilisateur
+    // $user->update($requests);
 
 
-    // On retourne la réponse JSON
-    return response()->json([
+    // // On retourne la réponse JSON
+    // return response()->json([
 
-    "message" => "image updated successfully.",
-    "data" => $user]);
-    }
+    // "message" => "image updated successfully.",
+    // "data" => $user]);
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -107,32 +158,34 @@ class UserController extends Controller
     public function passwordchange()
     {}
 
+    // Request $request, $id 
+   
 
-
-    public function ActiveUser(Request $request, $id )
+    public function ActiveUser(Request $request, $id)
     {
-
+      
         $user = User::findOrFail($id) ;
-      //  dd($user->value('id')) ;
+        // dd($user->value('id')) ;
         $user->update($request->all(['isActive']));
+        
+        if( $user->update($request->all(['isActive']))){
+             if ($user->isActive == 0){
+                Mail::to($user->email)->send(new NotifMailrefus());
+             }
+             if($user->isActive == 1){
+              Mail::to($user->email)->send(new NotifMail());
+            }
+            return response()->json([
 
-       if( $user->update($request->all(['isActive']))){
-           if ($user->isActive == 0){
+         "message" => "user updated successfully.",
+          "data" => $user]);}
+        else
+        {  
 
-           }
-           if($user->isActive == 1){
-               
-           }
-           return response()->json([
-
-        "message" => "user updated successfully.",
-         "data" => $user]);}
-       else
-       {  
-
-           return response()->json();
+            return response()->json();
         }
     }
+
 
 
 
