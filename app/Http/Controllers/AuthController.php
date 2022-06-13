@@ -96,7 +96,56 @@ class AuthController extends Controller
     public function userProfile() {
        // return response()->json(auth()->user());
         if ( auth()->user() )
-        {   return response()->json(auth()->user() ) ;  }
+        {
+
+            $user = auth()->user() ;
+            $adress = Adress::find( $user->adress_id );
+
+
+
+            $province = Province::find($adress->province_id);
+
+            $rep = [
+                 "adress"=>  $adress->adress,
+                "city"=>  $adress->city,
+                "code"=>  $adress->code,
+                "province"=>  $province->name,
+                "province_id"=>  $adress->province_id,
+                "username"=>  $user->username,
+                "firstname"=>  $user->firstname,
+                "lastname"=>  $user->lastname,
+                "companyname"=>  $user->companyname,
+                "email"=>  $user->email,
+                "phone"=>  $user->phone,
+                "website"=>  $user->website,
+                "bio"=>  $user->bio,
+                "logo"=>  $user->logo,
+                "CV"=>  $user->CV,
+                "language"=>  $user->language,
+                "NEQ"=>  $user->NEQ,
+                "role"=>  $user->role,
+                "isActive"=>  $user->isActive,
+                "status"=>  $user->status,
+                "isEmailActive"=>  $user->isEmailActive,
+                "isAvailable"=>  $user->isAvailable,
+                "IACNC"=>  $user->IACNC,
+                "LinkedIn"=>  $user->LinkedIn,
+                "Line_type"=>  $user->Line_type,
+
+
+
+
+
+
+
+            ] ;
+
+            return response()->json($rep) ;
+
+
+
+
+        }
         else
         { return response()->json(['message' => 'Authontification required' , 404]) ;  }
     }

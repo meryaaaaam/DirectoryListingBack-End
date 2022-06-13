@@ -46,7 +46,54 @@ class UserController extends Controller
     public function show($id)
     {
         if (User::find($id))
-       { return response()->json(User::find($id));}
+       {
+        $user = User::find($id) ;
+        $adress = Address::find( $user->adress_id );
+
+
+
+        $province = Province::find($adress->province_id);
+
+        $rep = [
+             "adress"=>  $adress->adress,
+            "city"=>  $adress->city,
+            "code"=>  $adress->code,
+            "province_id"=>  $province->name,
+            "username"=>  $user->username,
+            "firstname"=>  $user->firstname,
+            "lastname"=>  $user->lastname,
+            "companyname"=>  $user->companyname,
+            "email"=>  $user->email,
+            "phone"=>  $user->phone,
+            "website"=>  $user->website,
+            "bio"=>  $user->bio,
+            "logo"=>  $user->logo,
+            "CV"=>  $user->CV,
+            "language"=>  $user->language,
+            "NEQ"=>  $user->NEQ,
+            "role"=>  $user->role,
+            "isActive"=>  $user->isActive,
+            "status"=>  $user->status,
+            "isEmailActive"=>  $user->isEmailActive,
+            "isAvailable"=>  $user->isAvailable,
+            "IACNC"=>  $user->IACNC,
+            "LinkedIn"=>  $user->LinkedIn,
+            "Line_type"=>  $user->Line_type,
+
+
+
+
+
+
+
+        ] ;
+
+        return response()->json($rep) ;
+
+
+
+
+    }
        else
        { return response()->json(['message' => 'user not found  ']);}
     }
@@ -150,55 +197,53 @@ class UserController extends Controller
     {
         $requests = $request->all() ;
         $adress = $request->all(['adress']);
+
+
         $city = $request->all(['city']);
 
         $code = $request->all(['code']);
         $province_id = $request->all(['province_id']);
 
         $ad =   ['adress' => $adress,
-        'city' => $city,
-        'code' => $code ,
-        'province_id' => $province_id
-
-        ] ;
+                'city' => $city,
+                'code' => $code ,
+                'province_id' => $province_id ] ;
 
         $province = Province::find($request->province_id) ;
-      //  dd($province->name);
 
-        $user = User::findOrFail($id) ;
-        $data = $user->adress ;
-      //  $adr = $adress+","+$city + "," +",";
-
-
-
-
-      if($user->adress_id)
-      {
-        $adresse= Address::find( $user->adress_id) ;
-        $adresse->update([  "adress"=>  $request->adress,
-                          "city"=>  $request->city,
-                          "code"=>  $request->code,
-                          "province_id"=>  $request->province_id,
-
-
-        ]);
-      }
-      else { $adresse= Address::create( $request->all()) ;   $user->update([  "adress_id"=>  $adresse->id]);}
-
-      $adress1 = $request->adress ;
-      $city1 = $request->city ;
-      $code1 = $request->code ;
-      $province1 = $province->name ;
-      $adr = $adress1 ." ". $city1 ." ". $code1 ." ". $city1 ." ". $province1 ;
-
-        $user->update([  "adresse"=>  $adr]);
-        $user->update($request->all()  );
-
+        if(!$adress || !$city || !$code || !$province) {
         return response()->json([
+           "message" => "Remplir votre adresse.",
+           "data" => ""]);}
 
-        "message" => "user updated successfully.",
-    "data" => [$user , $adresse]]);
-    }
+
+        else{
+            $user = User::findOrFail($id) ;
+            $data = $user->adress ;
+
+            if($user->adress_id)
+            {
+                $adresse= Address::find( $user->adress_id) ;
+                $adresse->update([  "adress"=>  $request->adress,
+                                "city"=>  $request->city,
+                                "code"=>  $request->code,
+                                "province_id"=>  $request->province_id,
+                ]);
+            }
+            else { $adresse= Address::create( $request->all()) ;   $user->update([  "adress_id"=>  $adresse->id]);}
+
+            $adress1 = $request->adress ;
+            $city1 = $request->city ;
+            $code1 = $request->code ;
+            $province1 = $province->name ;
+            $adr = $adress1 ." ". $city1 ." ". $code1 ." ". $city1 ." ". $province1 ;
+
+            $user->update([  "adresse"=>  $adr]);
+            $user->update($request->all()  );
+
+            return response()->json([     "message" => "votre profile a été mise à jour avec succes.", "data" => [$user , $adresse]]);
+            }
+        }
 
 
 
