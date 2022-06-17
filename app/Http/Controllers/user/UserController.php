@@ -52,45 +52,84 @@ class UserController extends Controller
 
 
 
-        $province = Province::find($adress->province_id);
-
-        $rep = [
-
-            "id"=>  $user->id,
-            "username"=>  $user->username,
-            "firstname"=>  $user->firstname,
-            "lastname"=>  $user->lastname,
-            "companyname"=>  $user->companyname,
-            "email"=>  $user->email,
-            "phone"=>  $user->phone,
-            "website"=>  $user->website,
-            "bio"=>  $user->bio,
-            "logo"=>  $user->logo,
-            "CV"=>  $user->CV,
-            "language"=>  $user->language,
-            "NEQ"=>  $user->NEQ,
-            "role"=>  $user->role,
-            "isActive"=>  $user->isActive,
-            "note"=>  $user->note,
-            "status"=>  $user->status,
-            "isEmailActive"=>  $user->isEmailActive,
-            "isAvailable"=>  $user->isAvailable,
-            "IACNC"=>  $user->IACNC,
-            "LinkedIn"=>  $user->LinkedIn,
-            "Line_type"=>  $user->Line_type,
-            "adress"=>  $adress->adress,
-            "city"=>  $adress->city,
-            "code"=>  $adress->code,
-            "province_id"=>  $province->name,
 
 
+        if(Province::find($adress->province_id)){
+            $province = Province::find($adress->province_id);
+            $rep = [
+
+                "id"=>  $user->id,
+                "username"=>  $user->username,
+                "firstname"=>  $user->firstname,
+                "lastname"=>  $user->lastname,
+                "companyname"=>  $user->companyname,
+                "email"=>  $user->email,
+                "phone"=>  $user->phone,
+                "website"=>  $user->website,
+                "bio"=>  $user->bio,
+                "logo"=>  $user->logo,
+                "CV"=>  $user->CV,
+                "language"=>  $user->language,
+                "NEQ"=>  $user->NEQ,
+                "role"=>  $user->role,
+                "isActive"=>  $user->isActive,
+                "note"=>  $user->note,
+                "status"=>  $user->status,
+                "isEmailActive"=>  $user->isEmailActive,
+                "isAvailable"=>  $user->isAvailable,
+                "IACNC"=>  $user->IACNC,
+                "LinkedIn"=>  $user->LinkedIn,
+                "Line_type"=>  $user->Line_type,
+                "adress"=>  $adress->adress,
+                "city"=>  $adress->city,
+                "code"=>  $adress->code,
+                "province_id"=>  $province->name,
 
 
 
 
-        ] ;
 
-        return response()->json($rep) ;
+
+            ] ;
+
+            return response()->json($rep) ;}
+        else {
+
+            $rep = [
+
+                "id"=>  $user->id,
+                "username"=>  $user->username,
+                "firstname"=>  $user->firstname,
+                "lastname"=>  $user->lastname,
+                "companyname"=>  $user->companyname,
+                "email"=>  $user->email,
+                "phone"=>  $user->phone,
+                "website"=>  $user->website,
+                "bio"=>  $user->bio,
+                "logo"=>  $user->logo,
+                "CV"=>  $user->CV,
+                "language"=>  $user->language,
+                "NEQ"=>  $user->NEQ,
+                "role"=>  $user->role,
+                "isActive"=>  $user->isActive,
+                "note"=>  $user->note,
+                "status"=>  $user->status,
+                "isEmailActive"=>  $user->isEmailActive,
+                "isAvailable"=>  $user->isAvailable,
+                "IACNC"=>  $user->IACNC,
+                "LinkedIn"=>  $user->LinkedIn,
+                "Line_type"=>  $user->Line_type,
+
+
+
+
+
+
+
+
+            ] ;
+            return response()->json($rep) ;}
+
 
 
 
@@ -109,64 +148,68 @@ class UserController extends Controller
      */
     public function update(Request $request, $id )
     {
-        //$requests = $request->all() ;
-        //$requests = $request->all() ;
-        $user = User::findOrFail($id) ;
-       
-    
-        $user->update($request->all());
-        //$user->fill($requests)->save();
-        
-         if ($request->hasFile('img'))
+        $requests = $request->all() ;
+        $adress = $request->all(['adress']);
+
+
+        $city = $request->all(['city']);
+
+        $code = $request->all(['code']);
+        $province_id = $request->all(['province_id']);
+
+        $ad =   ['adress' => $adress,
+                'city' => $city,
+                'code' => $code ,
+                'province_id' => $province_id ] ;
+
+        $province = Province::find($request->province_id) ;
+
+        if(!$adress || !$city || !$code || !$province) {
+        return response()->json([
+           "message" => "Remplir votre adresse.",
+           "data" => ""]);}
+
+
+        else{
+            $user = User::findOrFail($id) ;
+            $data = $user->adress ;
+
+            if($user->adress_id)
+            {
+                $adresse= Address::find( $user->adress_id) ;
+                $adresse->update([  "adress"=>  $request->adress,
+                                "city"=>  $request->city,
+                                "code"=>  $request->code,
+                                "province_id"=>  $request->province_id,
+                ]);
+            }
+            else { $adresse= Address::create( $request->all()) ;   $user->update([  "adress_id"=>  $adresse->id]);}
+
+            $adress1 = $request->adress ;
+            $city1 = $request->city ;
+            $code1 = $request->code ;
+            $province1 = $province->name ;
+            $adr = $adress1 ." ". $city1 ." ". $code1 ." ". $city1 ." ". $province1 ;
+
+            $user->update([  "adresse"=>  $adr]);
+            $user->update($request->all()  );
+
+
+            if ($request->hasFile('img'))
           {
-     
+
             $filenameWithExt = $request->file('img')->getClientOriginalName();
-   
+
                 $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                 $extension = $request->file('img')->getClientOriginalExtension();
                 $fileNameToStore= $filename.'_'.time().'.'.$extension;
                 $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
                 $user->logo= $fileNameToStore;
-                
-    //  $user->update($request->all());
-    
-    // return response()->json(["message" => "user updated successfully."]);
-    // }
-    //     //$user->username=$request->input('username')  ;
-         if($user->save() && $user->refresh()){
-            return response()->json(["message" => "user updated successfully."]);
-         } else{
-            return response()->json(["message" => "something went wrong"]);
-         }
 
+          }
+            return response()->json([     "message" => "votre profile a été mise à jour avec succes.", "data" => [$user , $adresse]]);
+            }
     }
-    //return response()->json(["message" => "user updated successfully."]);
-}
-    
-            // "data" => $user
-
-     //File Upload Function
-//  public function uploadimage(Request $request,$id)
-//  {
-//      $user = User::find($id) ;
-//    //check file
-//    if ($request->hasFile('img'))
-//    {
-//     dd('img');
-    //  $filenameWithExt = $request->file('img')->getClientOriginalName();
-    //  $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-    //  $extension = $request->file('img')->getClientOriginalExtension();
-    //  $fileNameToStore= 'assets/img/'.$filename.'_'.time().'.'.$extension;
-    //  $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
-    //  $user->logo= $fileNameToStore;
-
-    // }
-    // if($user->save()){
-    //  return response()->json(["message" => "image saved succesfully"]);
-    // } else{
-    //  return response()->json(["message" => "something went wrong"]);
-    // }
-//}
 
 
 
@@ -457,9 +500,54 @@ public function note($id , Request $Req)
 
 
 
+ //File Upload Function
+ public function uploadimage(Request $request,$id)
+ {
+     $user = User::find($id) ;
+   //check file
+   if ($request->hasFile('img'))
+   {
+     $filenameWithExt = $request->file('img')->getClientOriginalName();
+     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+     $extension = $request->file('img')->getClientOriginalExtension();
+     $fileNameToStore= $filename.'_'.time().'.'.$extension;
+     $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
+     $user->logo= $fileNameToStore;
 
+    }
+    if($user->save()){
+     return response()->json(["message" => "image saved succesfully"]);
+    } else{
+     return response()->json(["message" => "something went wrong"]);
+    }
 
+         // // $file      = $request->file('image');
+         // // Get filename with the extension
+         // $filenameWithExt = $request->file('img')->getClientOriginalName();
 
+         // // $filename  = $file->getClientOriginalName();
+         // // Get just filename
+         // $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+         // //$extension = $file->getClientOriginalExtension();
+         // // Get just ext
+         // $extension = $request->file('img')->getClientOriginalExtension();
+
+         // //$picture   = date('His').'-'.$filename;
+         // // Filename to store
+         // $fileNameToStore= $filename.'_'.time().'.'.$extension;
+         // // //move image to public/img folder
+         // // $file->move(public_path('img'), $picture);
+         //  // Upload Image
+         //  $path = $request->file('img')->storeAs('public/img', $fileNameToStore);
+         //  $user->logo=$fileNameToStore;
+         // return response()->json(["message" => "Image Uploaded Succesfully"]);
+
+ //   else
+ //   {
+ //     $fileNameToStore = 'nocontent.jpg';
+ //         return response()->json(["message" => "Select image first."]);
+ //   }
+ }
 
 
      // public function uploadimage(Request $request )

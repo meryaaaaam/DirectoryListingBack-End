@@ -310,11 +310,13 @@ public function advsearch(Request $request , $label )
                 } else{$categoriesusers[] = $uuss->subcategory->category->label ;}
             }
               $list[] = [
+                     "id" => $users->id ,
                      "firstname" => $users->firstname ,
                      "lastname" => $users->lastname ,
                      "companyname" => $users->companyname ,
                      "role" => $users->role ,
                      "bio" => $users->bio ,
+                     "ANCNC" => $users->ANCNC ,
                      "logo" => $users->logo ,
                      "adresse" => $users->adresse ,
                      "email" => $users->email ,
@@ -362,6 +364,7 @@ public function advsearch(Request $request , $label )
                     "firstname" => $u->firstname ,
                     "lastname" => $u->lastname ,
                     "companyname" => $u->companyname ,
+                    "ANCNC" => $users->ANCNC ,
                     "email" => $u->email ,
                     "role" => $u->role ,
                     "logo" => $u->logo ,
@@ -433,6 +436,7 @@ public function advsearch(Request $request , $label )
                         "email"=> $l->email ,
                         "bio"=> $l->bio ,
                         "role"=> $l->role ,
+                        "ANCNC" => $users->ANCNC ,
                         "logo"=> $l->logo ,
                         "adresse"=> $l->adresse ,
                        "services" => $uu,
@@ -469,6 +473,7 @@ public function advsearch(Request $request , $label )
                         "email"=>$user->email ,
                         "role"=>$user->role ,
                         "role"=>$user->logo ,
+                        "ANCNC" => $users->IACNC ,
                         "companyname"=>$user->username ,
                         "adresse"=>$user->adresse ,
                         "bio"=>$user->bio ,

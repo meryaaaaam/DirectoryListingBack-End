@@ -99,13 +99,12 @@ class AuthController extends Controller
         {
 
             $user = auth()->user() ;
-            $adress = Adress::find( $user->adress_id );
 
+            if( Adress::find( $user->adress_id ))
 
-
-            $province = Province::find($adress->province_id);
-
-            $rep = [
+            {$adress = Adress::find( $user->adress_id );
+             $province = Province::find($adress->province_id);
+             $rep = [
 
                 "id"=>  $user->id,
                 "username"=>  $user->username,
@@ -143,6 +142,54 @@ class AuthController extends Controller
             ] ;
 
             return response()->json($rep) ;
+
+
+
+            }
+            else{
+
+                $rep = [
+
+                    "id"=>  $user->id,
+                    "username"=>  $user->username,
+                    "firstname"=>  $user->firstname,
+                    "lastname"=>  $user->lastname,
+                    "companyname"=>  $user->companyname,
+                    "email"=>  $user->email,
+                    "phone"=>  $user->phone,
+                    "website"=>  $user->website,
+                    "bio"=>  $user->bio,
+                    "logo"=>  $user->logo,
+                    "CV"=>  $user->CV,
+                    "language"=>  $user->language,
+                    "NEQ"=>  $user->NEQ,
+                    "role"=>  $user->role,
+                    "isActive"=>  $user->isActive,
+                    "status"=>  $user->status,
+                    "isEmailActive"=>  $user->isEmailActive,
+                    "isAvailable"=>  $user->isAvailable,
+                    "IACNC"=>  $user->IACNC,
+                    "LinkedIn"=>  $user->LinkedIn,
+                    "Line_type"=>  $user->Line_type,
+                    "IACNC"=>  $user->IACNC,
+
+
+
+
+
+
+
+                ] ;
+
+                return response()->json($rep) ;
+            }
+
+
+
+
+
+
+
 
 
 

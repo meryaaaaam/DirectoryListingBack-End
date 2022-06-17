@@ -47,7 +47,7 @@ Route::group([
    // Route::get("search_categories", [CategoryController::class, 'search2']);
     Route::get("search-services/{label}", [ServiceController::class, 'search']);
 
-    
+    Route::post('/upload-image/{user}', [UserController::class, 'uploadimage']);
 
 
 });
@@ -84,11 +84,7 @@ Route::put('userss/isActive/{user}', [UserController::class, 'ActiveUser']);
 
 Route::apiResource("provinces", ProviceController::class);
 
-Route::post('/userss/update/{user}', [UserController::class, 'update']);
-
-Route::put('userss/update2/{user}', [UserController::class, 'update2']);
-
-Route::post('/upload-image/{user}', [UserController::class, 'uploadimage']);
+Route::put('userss/update/{user}', [UserController::class, 'update2']);
 
 Route::get('users/adress/{user}', [UserController::class, 'getAdress']);
 
