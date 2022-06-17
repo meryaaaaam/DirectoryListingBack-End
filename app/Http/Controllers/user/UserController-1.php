@@ -109,15 +109,64 @@ class UserController extends Controller
      */
     public function update(Request $request, $id )
     {
-        $requests = $request->all() ;
-        $requests = $request->all() ;
+        //$requests = $request->all() ;
+        //$requests = $request->all() ;
         $user = User::findOrFail($id) ;
+       
+    
         $user->update($request->all());
-        return response()->json([
+        //$user->fill($requests)->save();
+        
+         if ($request->hasFile('img'))
+    {
+     
+     $filenameWithExt = $request->file('img')->getClientOriginalName();
+   
+     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+     $extension = $request->file('img')->getClientOriginalExtension();
+     $fileNameToStore= $filename.'_'.time().'.'.$extension;
+     $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
+     $user->logo= $fileNameToStore;
+     
+    //  $user->update($request->all());
+    
+    // return response()->json(["message" => "user updated successfully."]);
+    // }
+    //     //$user->username=$request->input('username')  ;
+         if($user->save() && $user->refresh()){
+            return response()->json(["message" => "user updated successfully."]);
+         } else{
+            return response()->json(["message" => "something went wrong"]);
+         }
 
-        "message" => "user updated successfully.",
-        "data" => $user]);
     }
+    //return response()->json(["message" => "user updated successfully."]);
+}
+    
+            // "data" => $user
+
+     //File Upload Function
+//  public function uploadimage(Request $request,$id)
+//  {
+//      $user = User::find($id) ;
+//    //check file
+//    if ($request->hasFile('img'))
+//    {
+//     dd('img');
+    //  $filenameWithExt = $request->file('img')->getClientOriginalName();
+    //  $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+    //  $extension = $request->file('img')->getClientOriginalExtension();
+    //  $fileNameToStore= 'assets/img/'.$filename.'_'.time().'.'.$extension;
+    //  $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
+    //  $user->logo= $fileNameToStore;
+
+    // }
+    // if($user->save()){
+    //  return response()->json(["message" => "image saved succesfully"]);
+    // } else{
+    //  return response()->json(["message" => "something went wrong"]);
+    // }
+//}
 
 
 
@@ -408,54 +457,9 @@ public function note($id , Request $Req)
 
 
 
- //File Upload Function
- public function uploadimage(Request $request,$id)
- {
-     $user = User::find($id) ;
-   //check file
-   if ($request->hasFile('img'))
-   {
-     $filenameWithExt = $request->file('img')->getClientOriginalName();
-     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-     $extension = $request->file('img')->getClientOriginalExtension();
-     $fileNameToStore= $filename.'_'.time().'.'.$extension;
-     $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
-     $user->logo= $fileNameToStore;
 
-    }
-    if($user->save()){
-     return response()->json(["message" => "image saved succesfully"]);
-    } else{
-     return response()->json(["message" => "something went wrong"]);
-    }
 
-         // // $file      = $request->file('image');
-         // // Get filename with the extension
-         // $filenameWithExt = $request->file('img')->getClientOriginalName();
 
-         // // $filename  = $file->getClientOriginalName();
-         // // Get just filename
-         // $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-         // //$extension = $file->getClientOriginalExtension();
-         // // Get just ext
-         // $extension = $request->file('img')->getClientOriginalExtension();
-
-         // //$picture   = date('His').'-'.$filename;
-         // // Filename to store
-         // $fileNameToStore= $filename.'_'.time().'.'.$extension;
-         // // //move image to public/img folder
-         // // $file->move(public_path('img'), $picture);
-         //  // Upload Image
-         //  $path = $request->file('img')->storeAs('public/img', $fileNameToStore);
-         //  $user->logo=$fileNameToStore;
-         // return response()->json(["message" => "Image Uploaded Succesfully"]);
-
- //   else
- //   {
- //     $fileNameToStore = 'nocontent.jpg';
- //         return response()->json(["message" => "Select image first."]);
- //   }
- }
 
 
      // public function uploadimage(Request $request )
