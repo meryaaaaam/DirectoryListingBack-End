@@ -43,7 +43,7 @@ class User extends Authenticatable  implements JWTSubject
         'isEmailActive',
         'service_id',
         'NEQ' ,
-            'IACNC',
+        'IACNC',
 
         'language',
         'note' ,

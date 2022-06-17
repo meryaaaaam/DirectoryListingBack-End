@@ -106,11 +106,8 @@ class AuthController extends Controller
             $province = Province::find($adress->province_id);
 
             $rep = [
-                 "adress"=>  $adress->adress,
-                "city"=>  $adress->city,
-                "code"=>  $adress->code,
-                "province"=>  $province->name,
-                "province_id"=>  $adress->province_id,
+
+                "id"=>  $user->id,
                 "username"=>  $user->username,
                 "firstname"=>  $user->firstname,
                 "lastname"=>  $user->lastname,
@@ -131,7 +128,12 @@ class AuthController extends Controller
                 "IACNC"=>  $user->IACNC,
                 "LinkedIn"=>  $user->LinkedIn,
                 "Line_type"=>  $user->Line_type,
-
+                "IACNC"=>  $user->IACNC,
+                "adress"=>  $adress->adress,
+                "city"=>  $adress->city,
+                "code"=>  $adress->code,
+                "province"=>  $province->name,
+                "province_id"=>  $adress->province_id,
 
 
 

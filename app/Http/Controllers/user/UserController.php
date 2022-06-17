@@ -55,10 +55,8 @@ class UserController extends Controller
         $province = Province::find($adress->province_id);
 
         $rep = [
-             "adress"=>  $adress->adress,
-            "city"=>  $adress->city,
-            "code"=>  $adress->code,
-            "province_id"=>  $province->name,
+
+            "id"=>  $user->id,
             "username"=>  $user->username,
             "firstname"=>  $user->firstname,
             "lastname"=>  $user->lastname,
@@ -73,13 +71,17 @@ class UserController extends Controller
             "NEQ"=>  $user->NEQ,
             "role"=>  $user->role,
             "isActive"=>  $user->isActive,
+            "note"=>  $user->note,
             "status"=>  $user->status,
             "isEmailActive"=>  $user->isEmailActive,
             "isAvailable"=>  $user->isAvailable,
             "IACNC"=>  $user->IACNC,
             "LinkedIn"=>  $user->LinkedIn,
             "Line_type"=>  $user->Line_type,
-
+            "adress"=>  $adress->adress,
+            "city"=>  $adress->city,
+            "code"=>  $adress->code,
+            "province_id"=>  $province->name,
 
 
 

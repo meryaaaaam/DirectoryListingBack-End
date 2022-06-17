@@ -38,6 +38,7 @@ return new class extends Migration
             $table->boolean('IACNC')->nullable();
             $table->string('LinkedIn')->nullable();
             $table->string('Line_type')->nullable();
+            $table->string('note')->nullable();
 
             $table->foreignId('adress_id')->nullable();
 
