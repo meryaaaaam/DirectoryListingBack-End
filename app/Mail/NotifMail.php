@@ -29,6 +29,6 @@ class NotifMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Bienvenus dans le bottin')->view('emails.AcceptMail');
+        return $this->subject('Bienvenue dans le bottin')->view('emails.AcceptMail');
     }
 }
