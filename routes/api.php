@@ -86,6 +86,10 @@ Route::apiResource("provinces", ProviceController::class);
 
 Route::put('userss/update/{user}', [UserController::class, 'update2']);
 
+Route::post('userss/update/{user}', [UserController::class, 'updateImage']);
+
+Route::post('userss/updateCV/{user}', [UserController::class, 'updateCV']);
+
 Route::get('users/adress/{user}', [UserController::class, 'getAdress']);
 
 Route::get("UserByIDCat/{label}", [CategoryController::class, 'SearchUserByLabel']);

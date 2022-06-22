@@ -38,12 +38,13 @@ class User extends Authenticatable  implements JWTSubject
         'role',
         'isActive',
         'status',
-
+        'IACNC',
         'adress_id',
         'isEmailActive',
         'service_id',
         'NEQ' ,
-        'IACNC',
+        'CV',
+        'LinkedIn',
 
         'language',
         'note' ,
