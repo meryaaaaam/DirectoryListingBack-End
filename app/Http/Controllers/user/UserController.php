@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::All() ;
+        $users = User::All();
         return response()->json($users);
     }
 
@@ -498,7 +498,7 @@ public function note($id , Request $Req)
 {
 
     $user = User::find($id)  ;
-    $user->update(["bio" => $Req->note]) ;
+    $user->update(["bio" => $Req->bio]) ;
 
     return response()->json($user);
 }
