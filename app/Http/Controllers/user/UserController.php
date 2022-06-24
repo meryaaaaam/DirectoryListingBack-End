@@ -498,11 +498,7 @@ public function note($id , Request $Req)
 {
 
     $user = User::find($id)  ;
-<<<<<<< HEAD
     $user->update(["note" => $Req->note]) ;
-=======
-    $user->update(["bio" => $Req->bio]) ;
->>>>>>> 807019a8ccb5ac3f8b8557ffb41e3667159a9b16
 
     return response()->json(["message" => "note a été modifier avec success" , "user" => $user , ]);
 }
