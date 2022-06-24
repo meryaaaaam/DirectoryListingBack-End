@@ -151,24 +151,24 @@ class UserController extends Controller
          //$requests = $request->all() ;
         //$requests = $request->all() ;
         $user = User::findOrFail($id) ;
-       
-    
+
+
         $user->update($request->all());
         //$user->fill($requests)->save();
-        
+
          if ($request->hasFile('img'))
           {
-     
+
             $filenameWithExt = $request->file('img')->getClientOriginalName();
-   
+
                 $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                 $extension = $request->file('img')->getClientOriginalExtension();
                 $fileNameToStore= $filename.'_'.time().'.'.$extension;
                 $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
                 $user->logo= $fileNameToStore;
-                
+
     //  $user->update($request->all());
-    
+
     // return response()->json(["message" => "user updated successfully."]);
     // }
     //     //$user->username=$request->input('username')  ;
@@ -194,7 +194,7 @@ public function updateCV(Request $request, $id )
           $fileNameToStore= $filename.'_'.time().'.'.$extension;
           $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
           $user->CV= $fileNameToStore;
-          
+
           if($user->save() && $user->refresh()){
             return response()->json(["message" => "CV added successfully."]);
            }else{
@@ -205,7 +205,7 @@ public function updateCV(Request $request, $id )
 // return response()->json(["message" => "user updated successfully."]);
 // }
 //     //$user->username=$request->input('username')  ;
-  
+
     }
 }
 
@@ -330,21 +330,21 @@ public function updateCV(Request $request, $id )
             $province1 = $province->name ;
             $adr = $adress1 ." ". $city1 ." ". $code1 ." ". $city1 ." ". $province1 ;
 
-            $user->update([  
+            $user->update([
                 "adresse"=>  $adr,
-               
+
             ]);
             $user->update($request->all());
-            
 
-           
+
+
             if($user->save() && $user->refresh()){
             return response()->json(["message" => "votre profile a été mise à jour avec succes.", "data" => [$user , $adresse]]);
            }else{
                 return response()->json(["message" => "something went wrong"]);
              }
         }
-    
+
     }
 
 
@@ -498,9 +498,9 @@ public function note($id , Request $Req)
 {
 
     $user = User::find($id)  ;
-    $user->update(["bio" => $Req->note]) ;
+    $user->update(["note" => $Req->note]) ;
 
-    return response()->json($user);
+    return response()->json(["message" => "note a été modifier avec success" , "user" => $user , ]);
 }
 
 

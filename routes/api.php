@@ -64,13 +64,17 @@ Route::get("list/users/actifs", [UserController::class, 'getAllActifUsers']);
 Route::get("list/users/preding", [UserController::class, 'getAllPredingUsers']);
 
 Route::get("test", [UserServiceController::class, 'userservice']);
-Route::get("SearchByLabel", [CategoryController::class, 'SearchByLabel']);
+//Route::get("SearchByLabel", [CategoryController::class, 'SearchByLabel']);
+Route::get("getsubbycat/{label}", [CategoryController::class, 'SearchByLabel']);
 
 Route::get("search-now", [SearchController::class, 'search_now']);
 Route::get("search-user-pro", [SearchController::class, 'pro']);
 Route::get("search-user-company", [SearchController::class, 'company']);
 Route::get("search-advanced", [SearchController::class, 'advanced']);
 Route::get("search-word", [SearchController::class, 'word']);
+
+
+Route::get("search-services-bysub", [ServiceController::class, 'searchbysub']);
 
 
 

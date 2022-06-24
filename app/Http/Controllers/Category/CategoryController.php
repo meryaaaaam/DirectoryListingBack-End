@@ -91,26 +91,22 @@ class CategoryController extends Controller
     }
 
 
-    public function SearchByLabel(Request $request  )
+    public function SearchByLabel(Request $request , $label )
     {
-        $label = $request->label ;
-        $category[] = new category() ;
-
-       // $category = category::where('label' ,$request->label)->firstOrFail();
-
-        $category = category::where('label' ,$request->label)->first();
+       //$category = category::where('label' ,$request->label)->first();
+       $category = category::where('label' ,$label)->first();
        if($category)
-       {$id = $category->value('id') ;
+       {$id = $category->id ;
+          $sous = SubCategory::where('category_id' ,$id)->get('label');
+          if($sous)
+          {return response()->json( $sous ) ;}
+          else
+          //{return response()->json(['message' => 'NO CONTENT'],204);}
+          {return response()->json(['message' => 'NO CONTENT']);}
+          }
 
-        $sous = SubCategory::where('category_id' ,$id)->get();
-        //dd($sous) ;
 
-        // foreach ($sous as $s)
-         //{dump($s->id);} die() ;
-        // dd($category->get('value')) ;
-
-        return response()->json(['Data'=>[$category , 'Sub Category'=> $sous ]]) ;}
-        else  return response()->json( ['message' => 'NO CONTENT'],204) ;
+        else  return response()->json( ['message' => 'NO CONTENT']) ;
 
 
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -86,6 +87,30 @@ class ServiceController extends Controller
     }
 
 
+    public function searchbysub(Request $request)
+    {
+        $sub = $request ;
 
-    
+       /* foreach($sub as $s)
+        {
+                $sub = SubCategory::where('label' ,$s)->first();
+              //  dd($sub->id) ;
+
+                $serv = Service::where('subcategory_id',$sub->id)->get('label');
+              //  dd($serv) ;
+                $result[] = $serv ;
+
+
+
+        }
+
+       return response()->json( $result);*/
+       return response()->json( $sub);
+
+
+
+    }
+
+
+
 }
