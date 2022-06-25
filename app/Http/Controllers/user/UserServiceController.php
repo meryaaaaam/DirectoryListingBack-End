@@ -29,8 +29,23 @@ class UserServiceController extends Controller
      */
     public function store(Request $request)
     {
-        $respose = UserService::create($request->all());
-        return response()->json($respose , 200 );
+        $userid = $request->user_id;
+        $services = $request->services ;
+
+        foreach($services as $s)
+        {
+            $service = Service::where("label" , $s)->first() ;
+            $userserv = UserService::create(["user_id"=>$userid , "service_id"=>$service->id]) ;
+
+        }
+       // $respose = UserService::all();
+        if($userserv->save() && $userserv->refresh()){
+            return response()->json(["message" => "profile a été modifier avec success."]);
+         } else{
+            return response()->json(["message" => "something went wrong"]);
+         }
+
+      // return response()->json($respose , 200 );
     }
 
     /**
@@ -41,7 +56,17 @@ class UserServiceController extends Controller
      */
     public function show($id)
     {
-        //
+      $userserv = UserService::where("user_id" ,$id)->get() ;
+      foreach($userserv as $s)
+     {
+
+        $services = Service::find($s->service_id);
+       // dd($services) ;
+        $res[] =["label"=> $services->label];
+
+
+    }
+      return response()->json($res );
     }
 
     /**

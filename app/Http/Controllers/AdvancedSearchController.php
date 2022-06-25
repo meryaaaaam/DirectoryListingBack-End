@@ -289,9 +289,12 @@ public function searchByLabel()
 
 public function advsearch(Request $request , $label )
 {  // $users = new User ;
-
+    //$params = $request->query('label') ;
+   // dd($params);
+   // die() ;
     $res[] = [] ;
     $word = $request->label ;
+   // $new = $params ;
     $new = str_replace("%20", " ", $label);
     $users =  User::where('firstname' ,'like' ,$new."%")->orwhere('lastname','like' , $new."%")->orwhere('companyname' ,'like' , $new."%")->first();
     $cat  = Category::where('label' ,'like', $new."%")->first() ;
@@ -364,7 +367,7 @@ public function advsearch(Request $request , $label )
                     "firstname" => $u->firstname ,
                     "lastname" => $u->lastname ,
                     "companyname" => $u->companyname ,
-                    "IACNC" => $users->IACNC ,
+                    "IACNC" => $u->IACNC ,
                     "email" => $u->email ,
                     "role" => $u->role ,
                     "logo" => $u->logo ,
@@ -436,7 +439,7 @@ public function advsearch(Request $request , $label )
                         "email"=> $l->email ,
                         "bio"=> $l->bio ,
                         "role"=> $l->role ,
-                        "IACNC" => $users->IACNC ,
+                        "IACNC" => $l->IACNC ,
                         "logo"=> $l->logo ,
                         "adresse"=> $l->adresse ,
                        "services" => $uu,
