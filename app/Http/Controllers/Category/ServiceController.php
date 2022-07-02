@@ -89,38 +89,29 @@ class ServiceController extends Controller
 
     public function searchbysub(Request $request)
     {
-        $sub = $request->query('sub') ;
-      //  dd($sub) ;
-        $sub = str_replace('[','', $sub) ;
-        $sub = str_replace(']','', $sub) ;
-        $pieces = explode(",", $sub);
+     
+        $sub = $request->label ;
+ 
+         foreach($sub as $s)
+         {
+              $su = SubCategory::where('label' ,$s)->first();
+              $serv = Service::where('subcategory_id',$su->id)->get('label');
+             $result[] = $serv ;
+         }
 
-
-         foreach($pieces as $s)
-        {
-                $sub = SubCategory::where('label' ,$s)->first();
-              //  dd($sub->id) ;
-
-                $serv = Service::where('subcategory_id',$sub->id)->get('label');
-
-                foreach($serv as $s)
-                { $result[] = $s ; }
-
-
-
-
-
+     return response()->json( $result);
+    //return response()->json( $sub);
 
         }
-        if($result)
-      { return response()->json( $result);}
-      else
-      { return response()->json( ["message" => "empty"]);}
-      // return response()->json( $sub);
+    //     if($result)
+    //   { return response()->json( $result);}
+    //   else
+    //   { return response()->json( ["message" => "empty"]);}
+    //   // return response()->json( $sub);
 
 
 
-    }
+    
 
     public function storeservices ()
     {}

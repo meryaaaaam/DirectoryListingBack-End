@@ -74,7 +74,7 @@ Route::get("search-advanced", [SearchController::class, 'advanced']);
 Route::get("search-word", [SearchController::class, 'word']);
 
 
-Route::get("search-services-bysub", [ServiceController::class, 'searchbysub']);
+Route::post("search-services-bysub", [ServiceController::class, 'searchbysub']);
 
 
 
