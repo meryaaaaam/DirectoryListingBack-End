@@ -376,9 +376,10 @@ public function advsearch(Request $request , $label )
                     "services" => $uu   ,
                     "category" => $servs->subcategory->category->label] ;
 
-
+// dd($list);
 
         }
+        dd($list);
         return response()->json(["Result" => $list] );
        }
        else { return response()->json(["Result" => 'No Content'] );}
@@ -572,6 +573,7 @@ public function advsearch2(Request $request , $label , $location)
                     }
             }
         }
+     
         $list = null ; $usersss = null ;
         foreach ($listusers as $u)
         {       $uadress = Adress::find($u->adress_id) ;
@@ -580,15 +582,16 @@ public function advsearch2(Request $request , $label , $location)
 
                // ->orWhere('adresses.province_id', $location);
                    // dump($uadress->city) ;
-
+                   //dd($u->adress_id);
                  $uu = null ;
                  foreach ($u->UserServices as $servs)
                     {  if($servs->label !== $uu)
                         {  $uu[] = $servs->label ;}
                     }
-                    if($uadress->city === $location || $uadress->adress === $location || $uadress->province_id === $location){
+                   
+                    if($uadress->city == $location || $uadress->adress == $location || $uadress->province_id == $location){
 
-
+//dd($uadress->city);
 
                         $list[] = [
 
@@ -600,15 +603,18 @@ public function advsearch2(Request $request , $label , $location)
                         "logo" => $u->logo ,
                         "bio" => $u->bio ,
                         "adresse" => $u->adress ,
-                        "services" => $uu   ,
+                        //"services" => $uu   ,
                         "category" => $servs->subcategory->category->label] ;
-                          $usersss[] = $u->username ; ;} else{  ;}
+                        
+                          $usersss[] = $u->username ;} else{  ;}
 
-        }      $uu[] = null  ;
+                          
+        }      //$uu[] = null  ;
+       
+        dd($usersss);
+        // for ($i = 1; $i <= count($list); $i++) {
 
-        for ($i = 1; $i <= count($list); $i++) {
-
-        }
+        // }
         return response()->json(["Result" => $list] );
     }
     if($sub)
