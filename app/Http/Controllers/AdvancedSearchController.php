@@ -476,8 +476,8 @@ public function advsearch(Request $request , $label )
                         "lastname"=>$user->lastname ,
                         "email"=>$user->email ,
                         "role"=>$user->role ,
-                        "role"=>$user->logo ,
-                        "IACNC" => $users->IACNC ,
+                        "logo"=>$user->logo ,
+                        "IACNC" => $user->IACNC ,
                         "companyname"=>$user->username ,
                         "adresse"=>$user->adresse ,
                         "bio"=>$user->bio ,
@@ -573,7 +573,7 @@ public function advsearch2(Request $request , $label , $location)
                     }
             }
         }
-     
+
         $list = null ; $usersss = null ;
         foreach ($listusers as $u)
         {       $uadress = Adress::find($u->adress_id) ;
@@ -588,7 +588,7 @@ public function advsearch2(Request $request , $label , $location)
                     {  if($servs->label !== $uu)
                         {  $uu[] = $servs->label ;}
                     }
-                   
+
                     if($uadress->city == $location || $uadress->adress == $location || $uadress->province_id == $location){
 
 //dd($uadress->city);
@@ -605,12 +605,12 @@ public function advsearch2(Request $request , $label , $location)
                         "adresse" => $u->adress ,
                         //"services" => $uu   ,
                         "category" => $servs->subcategory->category->label] ;
-                        
+
                           $usersss[] = $u->username ;} else{  ;}
 
-                          
+
         }      //$uu[] = null  ;
-       
+
         dd($usersss);
         // for ($i = 1; $i <= count($list); $i++) {
 
