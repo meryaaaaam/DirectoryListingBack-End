@@ -320,7 +320,7 @@ public function advsearch(Request $request , $label )
                      "role" => $users->role ,
                      "bio" => $users->bio ,
                      "IACNC" => $users->IACNC ,
-                     "logo" => $users->logo ,
+                     "logo" => "http://localhost:8000/storage/image/".$users->logo ,
                      "adresse" => $users->adresse ,
                      "email" => $users->email ,
                      "service" => $serv,
@@ -370,7 +370,7 @@ public function advsearch(Request $request , $label )
                     "IACNC" => $u->IACNC ,
                     "email" => $u->email ,
                     "role" => $u->role ,
-                    "logo" => $u->logo ,
+                    "logo" => "http://localhost:8000/storage/image/".$u->logo ,
                     "bio" => $u->bio ,
                     "adresse" => $u->adresse ,
                     "services" => $uu   ,
@@ -379,16 +379,15 @@ public function advsearch(Request $request , $label )
 // dd($list);
 
         }
-        dd($list);
+      //  dd($list);
         return response()->json(["Result" => $list] );
-       }
-       else { return response()->json(["Result" => 'No Content'] );}
+    }
 
 
     }
     if($sub)
     {
-       ; $listeuserss = null ;
+        $listeuserss = null ;
         $sousdeservices = $sub->services  ;
         foreach ($sousdeservices as $ss)
         {   $subb = null ; $catt = null ;
@@ -441,7 +440,7 @@ public function advsearch(Request $request , $label )
                         "bio"=> $l->bio ,
                         "role"=> $l->role ,
                         "IACNC" => $l->IACNC ,
-                        "logo"=> $l->logo ,
+                        "logo"=> "http://localhost:8000/storage/image/".$l->logo ,
                         "adresse"=> $l->adresse ,
                        "services" => $uu,
                         "category"=>$servs->subcategory->category->label ,
@@ -476,7 +475,7 @@ public function advsearch(Request $request , $label )
                         "lastname"=>$user->lastname ,
                         "email"=>$user->email ,
                         "role"=>$user->role ,
-                        "logo"=>$user->logo ,
+                        "logo"=>"http://localhost:8000/storage/image/".$user->logo ,
                         "IACNC" => $user->IACNC ,
                         "companyname"=>$user->username ,
                         "adresse"=>$user->adresse ,
@@ -493,8 +492,25 @@ public function advsearch(Request $request , $label )
 
 
     }
+
+
     // dump("serv",true , $listuser  ) ;
     return response()->json(["Result" => $listuser] );
+    }
+
+
+
+
+
+
+
+
+
+    if($request->tri && $list)
+    {
+            //function tri !
+
+            // return response()->json(["Result" => $list] );
     }
 
 }
@@ -552,7 +568,7 @@ public function advsearch2(Request $request , $label , $location)
                      "companyname" => $users->companyname ,
                      "role" => $users->role ,
                      "bio" => $users->bio ,
-                     "logo" => $users->logo ,
+                     "logo" => "http://localhost:8000/storage/image/".$users->logo ,
                      "adresse" => $users->adresse ,
                      "email" => $users->email ,
                      "service" => $uuss->label ,
@@ -600,7 +616,7 @@ public function advsearch2(Request $request , $label , $location)
                         "companyname" => $u->companyname ,
                         "email" => $u->email ,
                         "role" => $u->role ,
-                        "logo" => $u->logo ,
+                        "logo" =>"http://localhost:8000/storage/image/" .$u->logo ,
                         "bio" => $u->bio ,
                         "adresse" => $u->adress ,
                         //"services" => $uu   ,
@@ -611,7 +627,7 @@ public function advsearch2(Request $request , $label , $location)
 
         }      //$uu[] = null  ;
 
-        dd($usersss);
+     //   dd($usersss);
         // for ($i = 1; $i <= count($list); $i++) {
 
         // }
@@ -643,7 +659,7 @@ public function advsearch2(Request $request , $label , $location)
                                 "email"=> $v->email ,
                                 "bio"=> $v->bio ,
                                 "role"=> $v->role ,
-                                "logo"=> $v->logo ,
+                                "logo"=> "http://localhost:8000/storage/image/".$v->logo ,
                                 "adresse"=> $v->adresse ,
                                "service" => $services,
                                 "category"=>$catt ,
@@ -678,7 +694,7 @@ public function advsearch2(Request $request , $label , $location)
                         "lastname"=>$user->lastname ,
                         "email"=>$user->email ,
                         "role"=>$user->role ,
-                        "role"=>$user->logo ,
+                        "logo"=>"http://localhost:8000/storage/image/".$user->logo ,
                         "companyname"=>$user->username ,
                         "adresse"=>$user->adresse ,
                         "bio"=>$user->bio ,
