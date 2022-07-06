@@ -377,38 +377,39 @@ public function advsearch(Request $request , $label )
                     "services" => $uu   ,
                     "category" => $servs->subcategory->category->label] ;
 
-// dd($list);
+                  // dd($list);
 
         }
 
-        
-        
-           
-        
+
+
+
+
     }
         if($request->tri==="Croissant" && $list)
         {
                 //function tri !
                 $list = collect($list)->sortBy('username')->toArray();
                 //$liste=$list->sortBy('username');
-    
-                 return response()->json(["Result" => $list] );
+                $datastored = $list ;
+               // return response()->json(["Result" => $list] );
+                return response()->json(["Result" => $datastored] );
         }
-        else if($request->tri==="Decroissant" && $list)
+       else if($request->tri==="Decroissant" && $list)
         {
                 //function tri !
                 $list = collect($list)->sortBy('username')->reverse()->toArray();
                 //$liste=$list->sortBy('username');
-    
-                 return response()->json(["Result" => $list] );
+                $datastored = $list ;
+                 return response()->json(["Result" => $datastored] );
         }
-        else{
-            return response()->json(["Result" => $list] );
-        }
+
       //  dd($list);
-      
-        
-    
+      else{
+        return response()->json(["Result" => $list] );
+    }
+
+
 
 
     }
