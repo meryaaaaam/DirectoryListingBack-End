@@ -364,6 +364,7 @@ public function advsearch(Request $request , $label )
              }
 
                     $list[] = [
+                    "username" => $u->username ,
                     "firstname" => $u->firstname ,
                     "lastname" => $u->lastname ,
                     "companyname" => $u->companyname ,
@@ -379,9 +380,35 @@ public function advsearch(Request $request , $label )
 // dd($list);
 
         }
-      //  dd($list);
-        return response()->json(["Result" => $list] );
+
+        
+        
+           
+        
     }
+        if($request->tri==="Croissant" && $list)
+        {
+                //function tri !
+                $list = collect($list)->sortBy('username')->toArray();
+                //$liste=$list->sortBy('username');
+    
+                 return response()->json(["Result" => $list] );
+        }
+        else if($request->tri==="Decroissant" && $list)
+        {
+                //function tri !
+                $list = collect($list)->sortBy('username')->reverse()->toArray();
+                //$liste=$list->sortBy('username');
+    
+                 return response()->json(["Result" => $list] );
+        }
+        else{
+            return response()->json(["Result" => $list] );
+        }
+      //  dd($list);
+      
+        
+    
 
 
     }
@@ -496,21 +523,6 @@ public function advsearch(Request $request , $label )
 
     // dump("serv",true , $listuser  ) ;
     return response()->json(["Result" => $listuser] );
-    }
-
-
-
-
-
-
-
-
-
-    if($request->tri && $list)
-    {
-            //function tri !
-
-            // return response()->json(["Result" => $list] );
     }
 
 }
