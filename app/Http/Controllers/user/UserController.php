@@ -401,14 +401,14 @@ public function getAllCompany()
 public function getAllActifUsers()
 {
    // $users = User::where('role' ,'!=' ,'Admin')->where('isActive' , true)->get() ;
-    $users = User::where('role' ,'!=' ,'Admin')->where('status' , 'approuved')->get() ;
+    $users = User::where('role' ,'!=' ,'Admin')->where('isActive' , '1')->get() ;
     return response()->json( $users ) ;
 }
 
 
 public function getAllPredingUsers()
 {
-    $users = User::where('role' ,'!=' ,'Admin')->where('status' , 'rejected')->get() ;
+    $users = User::where('role' ,'!=' ,'Admin')->where('isActive' , '0')->get() ;
     return response()->json( $users ) ;
 }
 
@@ -510,6 +510,7 @@ public function note($id , Request $Req)
          $user = User::findOrFail($id) ;
          // dd($user->value('id')) ;
          $user->update($request->all(['isActive']));
+         
 
          if( $user->update($request->all(['isActive']))){
               if ($user->isActive == 0){
