@@ -27,7 +27,7 @@ class User extends Authenticatable  implements JWTSubject
         'lastname',
         'companyname',
         'phone',
-        'line_type',
+        'Line_type',
         'isTermsAccepted',
 
         'logo',
@@ -104,5 +104,5 @@ class User extends Authenticatable  implements JWTSubject
     {
         return $this->hasOne(Adress::class );
     }
-    
+
 }

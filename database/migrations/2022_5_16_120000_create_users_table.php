@@ -33,9 +33,9 @@ return new class extends Migration
             $table->string('role')->nullable();
             $table->boolean('isActive')->nullable();
             $table->enum('status', ['approuved','rejected' , 'preding'])->default('preding');
-            $table->boolean('isEmailActive')->nullable();
-            $table->boolean('isAvailable')->nullable();
-            $table->boolean('IACNC')->nullable();
+            $table->boolean('isEmailActive')->nullable()->default(0);
+            $table->boolean('isAvailable')->nullable()->default(0);
+            $table->boolean('IACNC')->nullable()->default(0);
             $table->string('LinkedIn')->nullable();
             $table->string('Line_type')->nullable();
             $table->string('note')->nullable();

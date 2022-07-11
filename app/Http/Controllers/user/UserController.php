@@ -510,13 +510,14 @@ public function note($id , Request $Req)
          $user = User::findOrFail($id) ;
          // dd($user->value('id')) ;
          $user->update($request->all(['isActive']));
-         
+
 
          if( $user->update($request->all(['isActive']))){
               if ($user->isActive == 0){
-                 Mail::to($user->email)->send(new NotifMailrefus());
+                  Mail::to($user->email)->send(new NotifMailrefus());
               }
               if($user->isActive == 1){
+
                Mail::to($user->email)->send(new NotifMail());
              }
              return response()->json([

@@ -288,10 +288,11 @@ public function searchByLabel()
 
 
 public function advsearch(Request $request , $label )
-{  // $users = new User ;
-    //$params = $request->query('label') ;
-   // dd($params);
-   // die() ;
+{
+    $state = $request->state ;
+    $i = $request->IACNC ;
+
+    //dd($state , $i) ;
     $res[] = [] ;
     $word = $request->label ;
    // $new = $params ;
@@ -312,21 +313,39 @@ public function advsearch(Request $request , $label )
                      {$categoriesusers[] = $uuss->subcategory->category->label ;}
                 } else{$categoriesusers[] = $uuss->subcategory->category->label ;}
             }
-              $list[] = [
-                     "id" => $users->id ,
-                     "firstname" => $users->firstname ,
-                     "lastname" => $users->lastname ,
-                     "companyname" => $users->companyname ,
-                     "role" => $users->role ,
-                     "bio" => $users->bio ,
-                     "IACNC" => $users->IACNC ,
-                     "logo" => "http://localhost:8000/storage/image/".$users->logo ,
-                     "adresse" => $users->adresse ,
-                     "email" => $users->email ,
-                     "service" => $serv,
-                     "category" => $categoriesusers] ;
+            if($i== "true")
+              {  
+                if($users->IACNC == 1)
+               { $list[] = [
+                     "id" => $users->id , "Active"=> $users->isActive ,"EA"=> $users->isEmailActive ,
 
+                     "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
+                     "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
+                     "logo" => "http://localhost:8000/storage/image/".$users->logo , "adresse" => $users->adresse ,
+                     "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;}
+                }
+               
+             elseif ($i == "false")
+            {if($users->IACNC == 0)
+               { $list[] = [
+                     "id" => $users->id , "Active"=> $users->isActive ,"EA"=> $users->isEmailActive ,
 
+                     "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
+                     "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
+                     "logo" => "http://localhost:8000/storage/image/".$users->logo , "adresse" => $users->adresse ,
+                     "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;}
+                }
+            else
+            {
+                $list[] = [
+                    "id" => $users->id , "Active"=> $users->isActive ,"EA"=> $users->isEmailActive ,
+
+                    "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
+                    "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
+                    "logo" => "http://localhost:8000/storage/image/".$users->logo , "adresse" => $users->adresse ,
+                    "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;
+            } 
+ 
             return response()->json( ["Result" => $list]  );
     }
     if($cat)
@@ -363,19 +382,65 @@ public function advsearch(Request $request , $label )
                  {  $uu[] = $servs->label ;}
              }
 
-                    $list[] = [
-                    "username" => $u->username ,
-                    "firstname" => $u->firstname ,
-                    "lastname" => $u->lastname ,
-                    "companyname" => $u->companyname ,
-                    "IACNC" => $u->IACNC ,
-                    "email" => $u->email ,
-                    "role" => $u->role ,
-                    "logo" => "http://localhost:8000/storage/image/".$u->logo ,
-                    "bio" => $u->bio ,
-                    "adresse" => $u->adresse ,
-                    "services" => $uu   ,
-                    "category" => $servs->subcategory->category->label] ;
+             if($i== "true")
+             {  
+               if($u->IACNC == 1)
+              {  $list[] = [
+                "id" => $u->id ,
+                "Active"=> $u->isActive ,
+                "EA"=> $u->isEmailActive ,
+                "username" => $u->username ,
+                "firstname" => $u->firstname ,
+                "lastname" => $u->lastname ,
+                "companyname" => $u->companyname ,
+                "IACNC" => $u->IACNC ,
+                "email" => $u->email ,
+                "role" => $u->role ,
+                "logo" => "http://localhost:8000/storage/image/".$u->logo ,
+                "bio" => $u->bio ,
+                "adresse" => $u->adresse ,
+                "services" => $uu   ,
+                "category" => $servs->subcategory->category->label] ;}
+               }
+              
+            elseif ($i == "false")
+           {if($u->IACNC == 0)
+              { $list[] = [
+                "id" => $u->id ,
+                "Active"=> $u->isActive ,
+                "EA"=> $u->isEmailActive ,
+                "username" => $u->username ,
+                "firstname" => $u->firstname ,
+                "lastname" => $u->lastname ,
+                "companyname" => $u->companyname ,
+                "IACNC" => $u->IACNC ,
+                "email" => $u->email ,
+                "role" => $u->role ,
+                "logo" => "http://localhost:8000/storage/image/".$u->logo ,
+                "bio" => $u->bio ,
+                "adresse" => $u->adresse ,
+                "services" => $uu   ,
+                "category" => $servs->subcategory->category->label] ;}
+               }
+           else
+           {
+            $list[] = [
+                "id" => $u->id ,
+                "Active"=> $u->isActive ,
+                "EA"=> $u->isEmailActive ,
+                "username" => $u->username ,
+                "firstname" => $u->firstname ,
+                "lastname" => $u->lastname ,
+                "companyname" => $u->companyname ,
+                "IACNC" => $u->IACNC ,
+                "email" => $u->email ,
+                "role" => $u->role ,
+                "logo" => "http://localhost:8000/storage/image/".$u->logo ,
+                "bio" => $u->bio ,
+                "adresse" => $u->adresse ,
+                "services" => $uu   ,
+                "category" => $servs->subcategory->category->label] ;
+           } 
 
                   // dd($list);
 
@@ -460,24 +525,67 @@ public function advsearch(Request $request , $label )
              {  if($servs->label !== $uu)
                  {  $uu[] = $servs->label ;}
              }
-                    $listusers[] = [
-                        "firstname"=> $l->firstname ,
-                        "lastname"=> $l->lastname ,
-                        "companyname"=> $l->companyname ,
-                        "email"=> $l->email ,
-                        "bio"=> $l->bio ,
-                        "role"=> $l->role ,
-                        "IACNC" => $l->IACNC ,
-                        "logo"=> "http://localhost:8000/storage/image/".$l->logo ,
-                        "adresse"=> $l->adresse ,
-                       "services" => $uu,
-                        "category"=>$servs->subcategory->category->label ,
-                       // "subcategory"=>$servs->subcategory->label  ,
-
-
-
-
-                       ] ;
+             if($i== "true")
+             {  
+               if($l->IACNC == 1)
+              {     $listusers[] = [
+                "id"=> $l->id ,
+                "Active"=> $l->isActive ,
+                "EA"=> $l->isEmailActive ,
+                "firstname"=> $l->firstname ,
+                "lastname"=> $l->lastname ,
+                "companyname"=> $l->companyname ,
+                "email"=> $l->email ,
+                "bio"=> $l->bio ,
+                "role"=> $l->role ,
+                "IACNC" => $l->IACNC ,
+                "logo"=> "http://localhost:8000/storage/image/".$l->logo ,
+                "adresse"=> $l->adresse ,
+               "services" => $uu,
+                "category"=>$servs->subcategory->category->label ,
+               // "subcategory"=>$servs->subcategory->label  ,];
+               ] ;}
+               }
+              
+            elseif ($i == "false")
+           {if($l->IACNC == 0)
+              {    $listusers[] = [
+                "id"=> $l->id ,
+                "Active"=> $l->isActive ,
+                "EA"=> $l->isEmailActive ,
+                "firstname"=> $l->firstname ,
+                "lastname"=> $l->lastname ,
+                "companyname"=> $l->companyname ,
+                "email"=> $l->email ,
+                "bio"=> $l->bio ,
+                "role"=> $l->role ,
+                "IACNC" => $l->IACNC ,
+                "logo"=> "http://localhost:8000/storage/image/".$l->logo ,
+                "adresse"=> $l->adresse ,
+               "services" => $uu,
+                "category"=>$servs->subcategory->category->label ];
+               // "subcategory"=>$servs->subcategory->label  ,];}
+               }}
+           else
+           {
+            $listusers[] = [
+                "id"=> $l->id ,
+                "Active"=> $l->isActive ,
+                "EA"=> $l->isEmailActive ,
+                "firstname"=> $l->firstname ,
+                "lastname"=> $l->lastname ,
+                "companyname"=> $l->companyname ,
+                "email"=> $l->email ,
+                "bio"=> $l->bio ,
+                "role"=> $l->role ,
+                "IACNC" => $l->IACNC ,
+                "logo"=> "http://localhost:8000/storage/image/".$l->logo ,
+                "adresse"=> $l->adresse ,
+               "services" => $uu,
+                "category"=>$servs->subcategory->category->label ,
+               // "subcategory"=>$servs->subcategory->label  ,];
+               ] ;
+           } 
      $services = null ; $subb = null ;
                 }
 
@@ -498,33 +606,88 @@ public function advsearch(Request $request , $label )
            $user = User::find($us->user_id) ;
          //  if(!($listuser == $user))
           // {
-               $listuser[] = [
-                        "firstname"=>$user->firstname ,
-                        "lastname"=>$user->lastname ,
-                        "email"=>$user->email ,
-                        "role"=>$user->role ,
-                        "logo"=>"http://localhost:8000/storage/image/".$user->logo ,
-                        "IACNC" => $user->IACNC ,
-                        "companyname"=>$user->username ,
-                        "adresse"=>$user->adresse ,
-                        "bio"=>$user->bio ,
-                        "category"=>$serv->subcategory->category->label ,
-                        //"subcategory"=>$serv->subcategory->label ,
-                        "service"=>$serv->label ,
+            if($i== "true")
+            {  
+              if($user->IACNC == 1)
+             {     $listuser[] = [
+                "id"=>$user->id ,
+                "Active"=>$user->isActive ,
+                "EA"=> $user->isEmailActive ,
+                "firstname"=>$user->firstname ,
+                "lastname"=>$user->lastname ,
+                "email"=>$user->email ,
+                "role"=>$user->role ,
+                "logo"=>"http://localhost:8000/storage/image/".$user->logo ,
+                "IACNC" => $user->IACNC ,
+                "companyname"=>$user->username ,
+                "adresse"=>$user->adresse ,
+                "bio"=>$user->bio ,
+                "category"=>$serv->subcategory->category->label ,
+                //"subcategory"=>$serv->subcategory->label ,
+                "service"=>$serv->label ,
 
 
 
-            ] ;
+                              ] ;}
+              }
+             
+           elseif ($i == "false")
+          {if($user->IACNC == 0)
+             {    $listuser[] = [
+                "id"=>$user->id ,
+                "Active"=>$user->isActive ,
+                "EA"=> $user->isEmailActive ,
+                "firstname"=>$user->firstname ,
+                "lastname"=>$user->lastname ,
+                "email"=>$user->email ,
+                "role"=>$user->role ,
+                "logo"=>"http://localhost:8000/storage/image/".$user->logo ,
+                "IACNC" => $user->IACNC ,
+                "companyname"=>$user->username ,
+                "adresse"=>$user->adresse ,
+                "bio"=>$user->bio ,
+                "category"=>$serv->subcategory->category->label ,
+                //"subcategory"=>$serv->subcategory->label ,
+                "service"=>$serv->label ,  ] ;
+              // "subcategory"=>$servs->subcategory->label  ,];
+            }
+              }
+          else
+          {
+            $listuser[] = [
+                "id"=>$user->id ,
+                "Active"=>$user->isActive ,
+                "EA"=> $user->isEmailActive ,
+                "firstname"=>$user->firstname ,
+                "lastname"=>$user->lastname ,
+                "email"=>$user->email ,
+                "role"=>$user->role ,
+                "logo"=>"http://localhost:8000/storage/image/".$user->logo ,
+                "IACNC" => $user->IACNC ,
+                "companyname"=>$user->username ,
+                "adresse"=>$user->adresse ,
+                "bio"=>$user->bio ,
+                "category"=>$serv->subcategory->category->label ,
+                //"subcategory"=>$serv->subcategory->label ,
+                "service"=>$serv->label ,
+
+
+
+    ] ;
+          } 
         //}
 
 
-
+        $result =  $listuser ;
     }
 
 
     // dump("serv",true , $listuser  ) ;
     return response()->json(["Result" => $listuser] );
     }
+
+
+
 
 }
 

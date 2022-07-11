@@ -28,6 +28,6 @@ class NotifMailrefus extends Mailable
      */
     public function build()
     {
-        return $this->subject('Verifier vos informations')->view('emails.refusMail');
+        return $this->subject('Vérifier vos informations')->view('emails.refusMail');
     }
 }

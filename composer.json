@@ -10,8 +10,12 @@
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
+        "maatwebsite/excel": "^3.1",
+        "phpoffice/phpspreadsheet": "*",
+        "psr/simple-cache": "2.0",
         "tymon/jwt-auth": "*"
     },
+
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
@@ -56,6 +60,7 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true
+
     },
     "minimum-stability": "dev",
     "prefer-stable": true
