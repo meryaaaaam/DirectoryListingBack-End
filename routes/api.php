@@ -6,6 +6,7 @@ use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Category\ServiceController;
 use App\Http\Controllers\Category\SubCategoryController;
 use App\Http\Controllers\ProviceController;
+use App\Http\Controllers\provinceSearchController;
 use App\Http\Controllers\user\PasswordController;
 use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\user\UserServiceController;
@@ -111,6 +112,7 @@ Route::get("all/search", [AdvancedSearchController::class, 'Search22']);
 Route::get("Search/AllItem/{label}", [AdvancedSearchController::class, 'advsearch']);
 Route::get("Search/AllItem/{label}/{location}", [AdvancedSearchController::class, 'advsearch2']);
 
+Route::get("Search/AllItems/{label}", [provinceSearchController::class, 'advsearch']);
 
 Route::get('allusers/pro', [UserController::class, 'getAllPro']);
 Route::get('allusers/company', [UserController::class, 'getAllCompany']);

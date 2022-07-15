@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Adress;
 use App\Models\Category;
+use App\Models\Province;
 use App\Models\Service;
 use App\Models\SubCategory;
 use App\Models\User;
@@ -291,6 +292,12 @@ public function advsearch(Request $request , $label )
 {
     $state = $request->state ;
     $i = $request->IACNC ;
+  
+ //dd($request->province);
+ 
+      
+    
+    
 
     //dd($state , $i) ;
     $res[] = [] ;
@@ -302,6 +309,7 @@ public function advsearch(Request $request , $label )
     $sub =    SubCategory::where('label' ,'like' , $new."%" )->first();
     //$sub =    SubCategory::where('label' ,'like' , $new."%" )->get()->toArray();
     $serv = Service::where('label' ,'like', $new."%")->first();
+    
 
     if($users)
     {
@@ -344,7 +352,15 @@ public function advsearch(Request $request , $label )
                     "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
                     "logo" => "http://localhost:8000/storage/image/".$users->logo , "adresse" => $users->adresse ,
                     "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;
-            } 
+            }
+           
+    
+        // if()
+         
+
+      //}
+            
+
  
             return response()->json( ["Result" => $list]  );
     }
@@ -369,6 +385,8 @@ public function advsearch(Request $request , $label )
 
             }
         }
+        
+       
 
 
         $list = null ; $usersss = null ;
@@ -381,6 +399,23 @@ public function advsearch(Request $request , $label )
              {  if($servs->label !== $uu)
                  {  $uu[] = $servs->label ;}
              }
+
+            //  $list[] = [
+            //   "id" => $u->id ,
+            //   "Active"=> $u->isActive ,
+            //   "EA"=> $u->isEmailActive ,
+            //   "username" => $u->username ,
+            //   "firstname" => $u->firstname ,
+            //   "lastname" => $u->lastname ,
+            //   "companyname" => $u->companyname ,
+            //   "IACNC" => $u->IACNC ,
+            //   "email" => $u->email ,
+            //   "role" => $u->role ,
+            //   "logo" => "http://localhost:8000/storage/image/".$u->logo ,
+            //   "bio" => $u->bio ,
+            //   "adresse" => $u->adresse ,
+            //   "services" => $uu   ,
+            //   "category" => $servs->subcategory->category->label] ;
 
              if($i== "true")
              {  
@@ -422,6 +457,7 @@ public function advsearch(Request $request , $label )
                 "services" => $uu   ,
                 "category" => $servs->subcategory->category->label] ;}
                }
+        
            else
            {
             $list[] = [
@@ -442,8 +478,7 @@ public function advsearch(Request $request , $label )
                 "category" => $servs->subcategory->category->label] ;
            } 
 
-                  // dd($list);
-
+                 
         }
 
 
