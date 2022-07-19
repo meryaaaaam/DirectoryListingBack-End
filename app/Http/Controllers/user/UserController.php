@@ -20,11 +20,58 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request )
     {
-        $users = User::All();
-        return response()->json($users);
-    }
+        $state = $request->state ;
+        $i = $request->IACNC ;
+        $type = $request->type ;
+        $userss = User::All();
+
+        foreach ($userss as $users)
+{
+        $categoriesusers = null ;
+        foreach($users->services as $uuss)
+        {  $serv[] = $uuss->label ;
+           if($categoriesusers !== null )
+           { if(!(in_array( $uuss->subcategory->category->label , $categoriesusers)) )
+                 {$categoriesusers[] = $uuss->subcategory->category->label ;}
+            } else{$categoriesusers[] = $uuss->subcategory->category->label ;}
+        }
+        if($i== "true")
+          {
+            if($users->IACNC == 1)
+           { $list[] = [
+                 "id" => $users->id , "Active"=> $users->isActive ,"EA"=> $users->isEmailActive ,
+
+                 "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
+                 "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
+                 "logo" => "https://backbottin.groupe3737.com/storage/image/".$users->logo , "adresse" => $users->adresse ,
+                 "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;}
+            }
+
+         elseif ($i == "false")
+        {if($users->IACNC == 0)
+           { $list[] = [
+                 "id" => $users->id , "Active"=> $users->isActive ,"EA"=> $users->isEmailActive ,
+
+                 "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
+                 "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
+                 "logo" => "https://backbottin.groupe3737.com/storage/image/".$users->logo , "adresse" => $users->adresse ,
+                 "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;}
+            }
+        else
+        {
+            $list[] = [
+                "id" => $users->id , "Active"=> $users->isActive ,"EA"=> $users->isEmailActive ,
+
+                "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
+                "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
+                "logo" => "https://backbottin.groupe3737.com/storage/image/".$users->logo , "adresse" => $users->adresse ,
+                "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;
+        }
+}
+        return response()->json( ["Result" => $list]  );
+     }
 
     /**
      * Store a newly created resource in storage.
@@ -49,7 +96,16 @@ class UserController extends Controller
        {
         $user = User::find($id) ;
         $adress = Address::find( $user->adress_id );
+        $categoriesusers = null ;
+        foreach($user->services as $uuss)
 
+
+        {  $serv[] = $uuss->label ;
+           if($categoriesusers !== null )
+           { if(!(in_array( $uuss->subcategory->category->label , $categoriesusers)) )
+                 {$categoriesusers[] = $uuss->subcategory->category->label ;}
+            } else{$categoriesusers[] = $uuss->subcategory->category->label ;}
+        }
 
 
 
@@ -67,7 +123,7 @@ class UserController extends Controller
                 "phone"=>  $user->phone,
                 "website"=>  $user->website,
                 "bio"=>  $user->bio,
-                "logo"=>  $user->logo,
+                "logo"=>  "https://backbottin.groupe3737.com/storage/image/".$user->logo,
                 "CV"=>  $user->CV,
                 "language"=>  $user->language,
                 "NEQ"=>  $user->NEQ,
@@ -84,7 +140,7 @@ class UserController extends Controller
                 "city"=>  $adress->city,
                 "code"=>  $adress->code,
                 "province_id"=>  $province->name,
-
+                "service" => $serv,"category" => $categoriesusers
 
 
 

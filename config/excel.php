@@ -85,7 +85,7 @@ return [
         | you can enable it by setting read_only to false.
         |
         */
-        'read_only' => true,
+        'read_only' => false,
 
         /*
         |--------------------------------------------------------------------------
@@ -294,6 +294,7 @@ return [
         |
         */
         'local_path'          => storage_path('framework/cache/laravel-excel'),
+       // 'local_path'          => storage_path('public/Excel'),
 
         /*
         |--------------------------------------------------------------------------
