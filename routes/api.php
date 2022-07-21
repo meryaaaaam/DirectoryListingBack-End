@@ -110,6 +110,9 @@ Route::get("all/search", [AdvancedSearchController::class, 'Search22']);
 //Route::get("Search/AllItem", [AdvancedSearchController::class, 'advsearch']);
 
 Route::get("Search/AllItem/{label}", [AdvancedSearchController::class, 'advsearch']);
+
+Route::get("Search", [AdvancedSearchController::class, 'advsearchusers']);
+
 Route::get("Search/AllItem/{label}/{location}", [AdvancedSearchController::class, 'advsearch2']);
 
 Route::get("Search/AllItems/{label}", [provinceSearchController::class, 'advsearch']);

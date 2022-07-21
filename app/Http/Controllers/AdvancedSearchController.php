@@ -292,12 +292,7 @@ public function advsearch(Request $request , $label )
 {
     $state = $request->state ;
     $i = $request->IACNC ;
-  
- //dd($request->province);
- 
-      
-    
-    
+    $type = $request->type ;
 
     //dd($state , $i) ;
     $res[] = [] ;
@@ -309,7 +304,7 @@ public function advsearch(Request $request , $label )
     $sub =    SubCategory::where('label' ,'like' , $new."%" )->first();
     //$sub =    SubCategory::where('label' ,'like' , $new."%" )->get()->toArray();
     $serv = Service::where('label' ,'like', $new."%")->first();
-    
+
 
     if($users)
     {
@@ -322,17 +317,17 @@ public function advsearch(Request $request , $label )
                 } else{$categoriesusers[] = $uuss->subcategory->category->label ;}
             }
             if($i== "true")
-              {  
+              {
                 if($users->IACNC == 1)
                { $list[] = [
                      "id" => $users->id , "Active"=> $users->isActive ,"EA"=> $users->isEmailActive ,
 
                      "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
                      "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
-                     "logo" => "http://localhost:8000/storage/image/".$users->logo , "adresse" => $users->adresse ,
+                     "logo" => "https://backbottin.groupe3737.com/storage/image/".$users->logo , "adresse" => $users->adresse ,
                      "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;}
                 }
-               
+
              elseif ($i == "false")
             {if($users->IACNC == 0)
                { $list[] = [
@@ -340,7 +335,7 @@ public function advsearch(Request $request , $label )
 
                      "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
                      "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
-                     "logo" => "http://localhost:8000/storage/image/".$users->logo , "adresse" => $users->adresse ,
+                     "logo" => "https://backbottin.groupe3737.com/storage/image/".$users->logo , "adresse" => $users->adresse ,
                      "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;}
                 }
             else
@@ -350,18 +345,9 @@ public function advsearch(Request $request , $label )
 
                     "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
                     "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
-                    "logo" => "http://localhost:8000/storage/image/".$users->logo , "adresse" => $users->adresse ,
+                    "logo" => "https://backbottin.groupe3737.com/storage/image/".$users->logo , "adresse" => $users->adresse ,
                     "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;
             }
-           
-    
-        // if()
-         
-
-      //}
-            
-
- 
             return response()->json( ["Result" => $list]  );
     }
     if($cat)
@@ -385,8 +371,8 @@ public function advsearch(Request $request , $label )
 
             }
         }
-        
-       
+
+
 
 
         $list = null ; $usersss = null ;
@@ -418,7 +404,7 @@ public function advsearch(Request $request , $label )
             //   "category" => $servs->subcategory->category->label] ;
 
              if($i== "true")
-             {  
+             {
                if($u->IACNC == 1)
               {  $list[] = [
                 "id" => $u->id ,
@@ -431,13 +417,13 @@ public function advsearch(Request $request , $label )
                 "IACNC" => $u->IACNC ,
                 "email" => $u->email ,
                 "role" => $u->role ,
-                "logo" => "http://localhost:8000/storage/image/".$u->logo ,
+                "logo" => "https://backbottin.groupe3737.com/storage/image/".$u->logo ,
                 "bio" => $u->bio ,
                 "adresse" => $u->adresse ,
                 "services" => $uu   ,
                 "category" => $servs->subcategory->category->label] ;}
                }
-              
+
             elseif ($i == "false")
            {if($u->IACNC == 0)
               { $list[] = [
@@ -451,13 +437,13 @@ public function advsearch(Request $request , $label )
                 "IACNC" => $u->IACNC ,
                 "email" => $u->email ,
                 "role" => $u->role ,
-                "logo" => "http://localhost:8000/storage/image/".$u->logo ,
+                "logo" => "https://backbottin.groupe3737.com/storage/image/".$u->logo ,
                 "bio" => $u->bio ,
                 "adresse" => $u->adresse ,
                 "services" => $uu   ,
                 "category" => $servs->subcategory->category->label] ;}
                }
-        
+
            else
            {
             $list[] = [
@@ -471,14 +457,14 @@ public function advsearch(Request $request , $label )
                 "IACNC" => $u->IACNC ,
                 "email" => $u->email ,
                 "role" => $u->role ,
-                "logo" => "http://localhost:8000/storage/image/".$u->logo ,
+                "logo" => "https://backbottin.groupe3737.com/storage/image/".$u->logo ,
                 "bio" => $u->bio ,
                 "adresse" => $u->adresse ,
                 "services" => $uu   ,
                 "category" => $servs->subcategory->category->label] ;
-           } 
+           }
 
-                 
+
         }
 
 
@@ -561,7 +547,7 @@ public function advsearch(Request $request , $label )
                  {  $uu[] = $servs->label ;}
              }
              if($i== "true")
-             {  
+             {
                if($l->IACNC == 1)
               {     $listusers[] = [
                 "id"=> $l->id ,
@@ -574,14 +560,14 @@ public function advsearch(Request $request , $label )
                 "bio"=> $l->bio ,
                 "role"=> $l->role ,
                 "IACNC" => $l->IACNC ,
-                "logo"=> "http://localhost:8000/storage/image/".$l->logo ,
+                "logo"=> "https://backbottin.groupe3737.com/storage/image/".$l->logo ,
                 "adresse"=> $l->adresse ,
                "services" => $uu,
                 "category"=>$servs->subcategory->category->label ,
                // "subcategory"=>$servs->subcategory->label  ,];
                ] ;}
                }
-              
+
             elseif ($i == "false")
            {if($l->IACNC == 0)
               {    $listusers[] = [
@@ -595,7 +581,7 @@ public function advsearch(Request $request , $label )
                 "bio"=> $l->bio ,
                 "role"=> $l->role ,
                 "IACNC" => $l->IACNC ,
-                "logo"=> "http://localhost:8000/storage/image/".$l->logo ,
+                "logo"=> "https://backbottin.groupe3737.com/storage/image/".$l->logo ,
                 "adresse"=> $l->adresse ,
                "services" => $uu,
                 "category"=>$servs->subcategory->category->label ];
@@ -614,13 +600,13 @@ public function advsearch(Request $request , $label )
                 "bio"=> $l->bio ,
                 "role"=> $l->role ,
                 "IACNC" => $l->IACNC ,
-                "logo"=> "http://localhost:8000/storage/image/".$l->logo ,
+                "logo"=> "https://backbottin.groupe3737.com/storage/image/".$l->logo ,
                 "adresse"=> $l->adresse ,
                "services" => $uu,
                 "category"=>$servs->subcategory->category->label ,
                // "subcategory"=>$servs->subcategory->label  ,];
                ] ;
-           } 
+           }
      $services = null ; $subb = null ;
                 }
 
@@ -642,7 +628,7 @@ public function advsearch(Request $request , $label )
          //  if(!($listuser == $user))
           // {
             if($i== "true")
-            {  
+            {
               if($user->IACNC == 1)
              {     $listuser[] = [
                 "id"=>$user->id ,
@@ -652,7 +638,7 @@ public function advsearch(Request $request , $label )
                 "lastname"=>$user->lastname ,
                 "email"=>$user->email ,
                 "role"=>$user->role ,
-                "logo"=>"http://localhost:8000/storage/image/".$user->logo ,
+                "logo"=>"https://backbottin.groupe3737.com/storage/image/".$user->logo ,
                 "IACNC" => $user->IACNC ,
                 "companyname"=>$user->username ,
                 "adresse"=>$user->adresse ,
@@ -665,7 +651,7 @@ public function advsearch(Request $request , $label )
 
                               ] ;}
               }
-             
+
            elseif ($i == "false")
           {if($user->IACNC == 0)
              {    $listuser[] = [
@@ -676,7 +662,7 @@ public function advsearch(Request $request , $label )
                 "lastname"=>$user->lastname ,
                 "email"=>$user->email ,
                 "role"=>$user->role ,
-                "logo"=>"http://localhost:8000/storage/image/".$user->logo ,
+                "logo"=>"https://backbottin.groupe3737.com/storage/image/".$user->logo ,
                 "IACNC" => $user->IACNC ,
                 "companyname"=>$user->username ,
                 "adresse"=>$user->adresse ,
@@ -697,7 +683,7 @@ public function advsearch(Request $request , $label )
                 "lastname"=>$user->lastname ,
                 "email"=>$user->email ,
                 "role"=>$user->role ,
-                "logo"=>"http://localhost:8000/storage/image/".$user->logo ,
+                "logo"=>"https://backbottin.groupe3737.com/storage/image/".$user->logo ,
                 "IACNC" => $user->IACNC ,
                 "companyname"=>$user->username ,
                 "adresse"=>$user->adresse ,
@@ -709,7 +695,7 @@ public function advsearch(Request $request , $label )
 
 
     ] ;
-          } 
+          }
         //}
 
 
@@ -779,7 +765,7 @@ public function advsearch2(Request $request , $label , $location)
                      "companyname" => $users->companyname ,
                      "role" => $users->role ,
                      "bio" => $users->bio ,
-                     "logo" => "http://localhost:8000/storage/image/".$users->logo ,
+                     "logo" => "https://backbottin.groupe3737.com/storage/image/".$users->logo ,
                      "adresse" => $users->adresse ,
                      "email" => $users->email ,
                      "service" => $uuss->label ,
@@ -827,7 +813,7 @@ public function advsearch2(Request $request , $label , $location)
                         "companyname" => $u->companyname ,
                         "email" => $u->email ,
                         "role" => $u->role ,
-                        "logo" =>"http://localhost:8000/storage/image/" .$u->logo ,
+                        "logo" =>"https://backbottin.groupe3737.com/storage/image/" .$u->logo ,
                         "bio" => $u->bio ,
                         "adresse" => $u->adress ,
                         //"services" => $uu   ,
@@ -870,7 +856,7 @@ public function advsearch2(Request $request , $label , $location)
                                 "email"=> $v->email ,
                                 "bio"=> $v->bio ,
                                 "role"=> $v->role ,
-                                "logo"=> "http://localhost:8000/storage/image/".$v->logo ,
+                                "logo"=> "https://backbottin.groupe3737.com/storage/image/".$v->logo ,
                                 "adresse"=> $v->adresse ,
                                "service" => $services,
                                 "category"=>$catt ,
@@ -905,7 +891,7 @@ public function advsearch2(Request $request , $label , $location)
                         "lastname"=>$user->lastname ,
                         "email"=>$user->email ,
                         "role"=>$user->role ,
-                        "logo"=>"http://localhost:8000/storage/image/".$user->logo ,
+                        "logo"=>"https://backbottin.groupe3737.com/storage/image/".$user->logo ,
                         "companyname"=>$user->username ,
                         "adresse"=>$user->adresse ,
                         "bio"=>$user->bio ,
@@ -926,4 +912,545 @@ public function advsearch2(Request $request , $label , $location)
     }
 
 }
+
+
+
+
+public function advsearchusers(Request $request )
+{
+    $state = $request->state ;
+    $i = $request->IACNC ;
+    $type = $request->type ;
+    $label = $request->label ;
+    //dd($state , $i) ;
+    $res[] = [] ;
+    $word = $request->label ;
+   // $new = $params ;
+    $new = str_replace("%20", " ", $label);
+    $users =  User::where('firstname' ,'like' ,$new."%")->orwhere('lastname','like' , $new."%")->orwhere('companyname' ,'like' , $new."%")->first();
+    $cat  = Category::where('label' ,'like', $new."%")->first() ;
+    $sub =    SubCategory::where('label' ,'like' , $new."%" )->first();
+    //$sub =    SubCategory::where('label' ,'like' , $new."%" )->get()->toArray();
+    $serv = Service::where('label' ,'like', $new."%")->first();
+
+
+    if($users)
+    {
+        $categoriesusers = null ;
+            foreach($users->services as $uuss)
+            {  $serv[] = $uuss->label ;
+               if($categoriesusers !== null )
+               { if(!(in_array( $uuss->subcategory->category->label , $categoriesusers)) )
+                     {$categoriesusers[] = $uuss->subcategory->category->label ;}
+                } else{$categoriesusers[] = $uuss->subcategory->category->label ;}
+            }
+            if($i== "true")
+              {
+                if($users->IACNC == 1)
+               {
+                      $list[] = [
+                     "id" => $users->id , "Active"=> $users->isActive ,"EA"=> $users->isEmailActive ,
+
+                     "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
+                     "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
+                     "logo" => "https://backbottin.groupe3737.com/storage/image/".$users->logo ,
+                     "adresse" => $users->adress_id ?Adress::find($users->adress_id)->address ." ".Adress::find($users->adress_id)->city." ".Adress::find($users->adress_id)->code  : "",
+                     "province" => $users->adress_id ?Province::find(Adress::find($users->adress_id)->province_id)->name : "",
+                     "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;}
+                }
+
+             elseif ($i == "false")
+            {if($users->IACNC == 0)
+               { $list[] = [
+                     "id" => $users->id , "Active"=> $users->isActive ,"EA"=> $users->isEmailActive ,
+
+                     "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
+                     "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
+                     "logo" => "https://backbottin.groupe3737.com/storage/image/".$users->logo ,
+                     "adresse" => $users->adress_id ?Adress::find($users->adress_id)->address ." ".Adress::find($users->adress_id)->city." ".Adress::find($users->adress_id)->code  : "",
+                     "province" => $users->adress_id ?Province::find(Adress::find($users->adress_id)->province_id)->name : "",
+                     "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;}
+                }
+            else
+            {
+                $list[] = [
+                    "id" => $users->id , "Active"=> $users->isActive ,"EA"=> $users->isEmailActive ,
+
+                    "firstname" => $users->firstname ,"lastname" => $users->lastname ,"companyname" => $users->companyname ,
+                    "role" => $users->role ,"bio" => $users->bio ,"IACNC" => $users->IACNC ,
+                    "logo" => "https://backbottin.groupe3737.com/storage/image/".$users->logo ,
+                    "adresse" => $users->adress_id ?Adress::find($users->adress_id)->address ." ".Adress::find($users->adress_id)->city." ".Adress::find($users->adress_id)->code  : "",
+                "province" => $users->adress_id ?Province::find(Adress::find($users->adress_id)->province_id)->name : "",
+                    "email" => $users->email ,"service" => $serv,"category" => $categoriesusers] ;
+            }
+            $listusers = array();
+            if($state)
+            {$state =explode(",", $state);
+          //  $list[] = collect($list)->whereIn('province',$state)->toArray() ;
+
+
+                foreach($list as $l )
+                {
+                    if(in_array($l['province'], $state)&& $l['Active']==true)
+                    {
+                            $listusers[] = $l ;
+                    }
+                }
+
+              }
+              else {
+
+                foreach($list as $l )
+                {
+                    if($l['Active']==true)
+                    {
+                            $listusers[] = $l ;
+                    }
+                }
+              }
+              //$listusers = $list ;
+            return response()->json( ["Result" => $listusers]  );
+    }
+    if($cat)
+    { $listusers = null ;
+        foreach ($cat->Subcategories as $subc)
+        {
+            foreach($subc->services as $servicec)
+            {
+                  foreach($servicec->users as $catc)
+                    {
+                        if($listusers !== null )
+                       {
+                        if(!(in_array( $catc->email ,  array_column($listusers, 'email')) ))
+                        $listusers[] = $catc;
+                           }
+                           else{ $listusers[] = $catc;}
+                    }
+            }
+        }
+
+
+
+
+        $list = null ; $usersss = null ;
+       if($listusers)
+       { foreach ($listusers as $u)
+        {
+            $uu = null ;
+
+             foreach ($u->services as $servs)
+             {  if($servs->label !== $uu)
+                 {  $uu[] = $servs->label ;}
+             }
+
+            //  $list[] = [
+            //   "id" => $u->id ,
+            //   "Active"=> $u->isActive ,
+            //   "EA"=> $u->isEmailActive ,
+            //   "username" => $u->username ,
+            //   "firstname" => $u->firstname ,
+            //   "lastname" => $u->lastname ,
+            //   "companyname" => $u->companyname ,
+            //   "IACNC" => $u->IACNC ,
+            //   "email" => $u->email ,
+            //   "role" => $u->role ,
+            //   "logo" => "http://localhost:8000/storage/image/".$u->logo ,
+            //   "bio" => $u->bio ,
+            //   "adresse" => $u->adresse ,
+            //   "services" => $uu   ,
+            //   "category" => $servs->subcategory->category->label] ;
+
+             if($i== "true")
+             {
+               if($u->IACNC == 1)
+              {  $list[] = [
+                "id" => $u->id ,
+                "Active"=> $u->isActive ,
+                "EA"=> $u->isEmailActive ,
+                "username" => $u->username ,
+                "firstname" => $u->firstname ,
+                "lastname" => $u->lastname ,
+                "companyname" => $u->companyname ,
+                "IACNC" => $u->IACNC ,
+                "email" => $u->email ,
+                "role" => $u->role ,
+                "logo" => "https://backbottin.groupe3737.com/storage/image/".$u->logo ,
+                "bio" => $u->bio ,
+
+                "adresse" => $u->adress_id ?Adress::find($u->adress_id)->address ." ".Adress::find($u->adress_id)->city." ".Adress::find($u->adress_id)->code  : "",
+                "province" => $u->adress_id ?Province::find(Adress::find($u->adress_id)->province_id)->name : "",
+                "services" => $uu   ,
+                "category" => $servs->subcategory->category->label] ;}
+               }
+
+            elseif ($i == "false")
+           {if($u->IACNC == 0)
+              { $list[] = [
+                "id" => $u->id ,
+                "Active"=> $u->isActive ,
+                "EA"=> $u->isEmailActive ,
+                "username" => $u->username ,
+                "firstname" => $u->firstname ,
+                "lastname" => $u->lastname ,
+                "companyname" => $u->companyname ,
+                "IACNC" => $u->IACNC ,
+                "email" => $u->email ,
+                "role" => $u->role ,
+                "logo" => "https://backbottin.groupe3737.com/storage/image/".$u->logo ,
+                "bio" => $u->bio ,
+                "adresse" => $u->adress_id ?Adress::find($u->adress_id)->address ." ".Adress::find($u->adress_id)->city." ".Adress::find($u->adress_id)->code  : "",
+                "province" => $u->adress_id ?Province::find(Adress::find($u->adress_id)->province_id)->name : "",
+                "services" => $uu   ,
+                "category" => $servs->subcategory->category->label] ;}
+               }
+
+           else
+           {
+            $list[] = [
+                "id" => $u->id ,
+                "Active"=> $u->isActive ,
+                "EA"=> $u->isEmailActive ,
+                "username" => $u->username ,
+                "firstname" => $u->firstname ,
+                "lastname" => $u->lastname ,
+                "companyname" => $u->companyname ,
+                "IACNC" => $u->IACNC ,
+                "email" => $u->email ,
+                "role" => $u->role ,
+                "logo" => "https://backbottin.groupe3737.com/storage/image/".$u->logo ,
+                "bio" => $u->bio ,
+                "adresse" => $u->adress_id ?Adress::find($u->adress_id)->address ." ".Adress::find($u->adress_id)->city." ".Adress::find($u->adress_id)->code  : "",
+                "province" => $u->adress_id ?Province::find(Adress::find($u->adress_id)->province_id)->name : "",
+                "services" => $uu   ,
+                "category" => $servs->subcategory->category->label] ;
+           }
+
+
+        }
+
+
+
+
+
+    }
+        if($request->tri==="Croissant" && $list)
+        {
+                //function tri !
+                $list = collect($list)->sortBy('username')->toArray();
+                //$liste=$list->sortBy('username');
+                $datastored = $list ;
+               // return response()->json(["Result" => $list] );
+                return response()->json(["Result" => $datastored] );
+        }
+       else if($request->tri==="Decroissant" && $list)
+        {
+                //function tri !
+                $list = collect($list)->sortBy('username')->reverse()->toArray();
+                //$liste=$list->sortBy('username');
+                $datastored = $list ;
+                 return response()->json(["Result" => $datastored] );
+        }
+
+
+      else{
+     // dd($list) ;
+     $res = array() ;
+       if($state)
+        {
+            $state =explode(",", $state);
+           // $res[]= collect($list)->whereIn('province',$state)->toArray();
+
+            foreach($list as $l )
+            {
+                if(in_array($l['province'], $state) && $l['Active']==true)
+                {
+                        $res[] = $l ;
+                }
+            }
+            $list = array() ;
+            $list = $res ;
+    }
+    else {
+
+        foreach($list as $l )
+        {
+            if($l['Active']==true)
+            {
+                    $res[] = $l ;
+            }
+        }
+      }
+
+        return response()->json(["Result" => $res] );
+    }
+
+
+
+
+    }
+    if($sub)
+    {
+        $listeuserss = null ;
+        $sousdeservices = $sub->services  ;
+        foreach ($sousdeservices as $ss)
+        {   $subb = null ; $catt = null ;
+            foreach($ss->users as $v) {
+             //  $listeuserss[] = $v ;  dd()
+
+
+               if($listeuserss !== null )
+               {   /*$key = array_search($v->email, array_column($listeuserss, 'email') );
+                 if(  (array_search($v->email, array_column($listeuserss, 'email'))) )
+                 { }
+                 else{$listeuserss[] = $v; dump( array_column($listeuserss, 'email') , $v->email) ;}
+
+                 dd($key);*/
+                 if(!(in_array( $v->email ,  array_column($listeuserss, 'email')) ))
+                 $listeuserss[] = $v;
+                 }
+                 else{ $listeuserss[] = $v;}
+
+
+           }}
+
+                foreach($listeuserss as $l)
+                {
+                    foreach($v->UserServices as $vus)
+                    {$subb = null ; $catt = null ; $services=null ;
+                           $services[]=  $vus->label ;
+                           if($subb !== $vus->subcategory->label) {
+                                $subb[] = $vus->subcategory->label ;
+                            }
+                           if($catt !== $vus->subcategory->category->label) {
+                               $catt[] = $vus->subcategory->category->label ;
+                            }
+
+                         //  dd($subb) ;
+
+                    }
+
+                    $uu = null ;
+
+             foreach ($l->services as $servs)
+             {  if($servs->label !== $uu)
+                 {  $uu[] = $servs->label ;}
+             }
+             if($i== "true")
+             {
+               if($l->IACNC == 1)
+              {     $listusers[] = [
+                "id"=> $l->id ,
+                "Active"=> $l->isActive ,
+                "EA"=> $l->isEmailActive ,
+                "firstname"=> $l->firstname ,
+                "lastname"=> $l->lastname ,
+                "companyname"=> $l->companyname ,
+                "email"=> $l->email ,
+                "bio"=> $l->bio ,
+                "role"=> $l->role ,
+                "IACNC" => $l->IACNC ,
+                "logo"=> "https://backbottin.groupe3737.com/storage/image/".$l->logo ,
+                "adresse" => $l->adress_id ?Adress::find($l->adress_id)->address ." ".Adress::find($l->adress_id)->city." ".Adress::find($l->adress_id)->code  : "",
+                "province" => $l->adress_id ?Province::find(Adress::find($l->adress_id)->province_id)->name : "",
+               "services" => $uu,
+                "category"=>$servs->subcategory->category->label ,
+               // "subcategory"=>$servs->subcategory->label  ,];
+               ] ;}
+               }
+
+            elseif ($i == "false")
+           {if($l->IACNC == 0)
+              {    $listusers[] = [
+                "id"=> $l->id ,
+                "Active"=> $l->isActive ,
+                "EA"=> $l->isEmailActive ,
+                "firstname"=> $l->firstname ,
+                "lastname"=> $l->lastname ,
+                "companyname"=> $l->companyname ,
+                "email"=> $l->email ,
+                "bio"=> $l->bio ,
+                "role"=> $l->role ,
+                "IACNC" => $l->IACNC ,
+                "logo"=> "https://backbottin.groupe3737.com/storage/image/".$l->logo ,
+                "adresse" => $l->adress_id ?Adress::find($l->adress_id)->address ." ".Adress::find($l->adress_id)->city." ".Adress::find($l->adress_id)->code  : "",
+                "province" => $l->adress_id ?Province::find(Adress::find($l->adress_id)->province_id)->name : "",
+               "services" => $uu,
+                "category"=>$servs->subcategory->category->label ];
+               // "subcategory"=>$servs->subcategory->label  ,];}
+               }}
+           else
+           {
+            $listusers[] = [
+                "id"=> $l->id ,
+                "Active"=> $l->isActive ,
+                "EA"=> $l->isEmailActive ,
+                "firstname"=> $l->firstname ,
+                "lastname"=> $l->lastname ,
+                "companyname"=> $l->companyname ,
+                "email"=> $l->email ,
+                "bio"=> $l->bio ,
+                "role"=> $l->role ,
+                "IACNC" => $l->IACNC ,
+                "logo"=> "https://backbottin.groupe3737.com/storage/image/".$l->logo ,
+                "adresse" => $l->adress_id ?Adress::find($l->adress_id)->address ." ".Adress::find($l->adress_id)->city." ".Adress::find($l->adress_id)->code  : "",
+                "province" => $l->adress_id ?Province::find(Adress::find($l->adress_id)->province_id)->name : "",
+               "services" => $uu,
+                "category"=>$servs->subcategory->category->label ,
+               // "subcategory"=>$servs->subcategory->label  ,];
+               ] ;
+           }
+     $services = null ; $subb = null ;
+                }
+
+
+           // dd($services) ;
+           $listusers = array();
+           if($state)
+          { $state =explode(",", $state);
+
+
+           foreach($listusers as $l )
+           {
+               if(in_array($l['province'], $state)&& $l['Active']==true)
+               {
+                       $listusers[] = $l ;
+               }
+           }
+        }
+        else {
+
+            foreach($listusers as $l )
+            {
+                if($l['Active']==true)
+                {
+                        $listusers[] = $l ;
+                }
+            }
+          }
+
+          return response()->json( ["Result" => $listusers] );
+       // dd($listusers) ;
+
+
+    }
+    if($serv)
+    {
+        $userservice = UserService::where('service_id' , $serv->id)->get("user_id")  ;
+        foreach ($userservice as $us )
+       {
+           $user = User::find($us->user_id) ;
+         //  if(!($listuser == $user))
+          // {
+            if($i== "true")
+            {
+              if($user->IACNC == 1)
+             {     $listuser[] = [
+                "id"=>$user->id ,
+                "Active"=>$user->isActive ,
+                "EA"=> $user->isEmailActive ,
+                "firstname"=>$user->firstname ,
+                "lastname"=>$user->lastname ,
+                "email"=>$user->email ,
+                "role"=>$user->role ,
+                "logo"=>"https://backbottin.groupe3737.com/storage/image/".$user->logo ,
+                "IACNC" => $user->IACNC ,
+                "companyname"=>$user->username ,
+                "adresse" => $user->adress_id ?Adress::find($user->adress_id)->address ." ".Adress::find($user->adress_id)->city." ".Adress::find($user->adress_id)->code  : "",
+                "province" => $user->adress_id ?Province::find(Adress::find($user->adress_id)->province_id)->name : "",
+                "bio"=>$user->bio ,
+                "category"=>$serv->subcategory->category->label ,
+                //"subcategory"=>$serv->subcategory->label ,
+                "service"=>$serv->label ,
+
+
+
+                              ] ;}
+              }
+
+           elseif ($i == "false")
+          {if($user->IACNC == 0)
+             {    $listuser[] = [
+                "id"=>$user->id ,
+                "Active"=>$user->isActive ,
+                "EA"=> $user->isEmailActive ,
+                "firstname"=>$user->firstname ,
+                "lastname"=>$user->lastname ,
+                "email"=>$user->email ,
+                "role"=>$user->role ,
+                "logo"=>"https://backbottin.groupe3737.com/storage/image/".$user->logo ,
+                "IACNC" => $user->IACNC ,
+                "companyname"=>$user->username ,
+                "adresse" => $user->adress_id ?Adress::find($user->adress_id)->address ." ".Adress::find($user->adress_id)->city." ".Adress::find($user->adress_id)->code  : "",
+                "province" => $user->adress_id ?Province::find(Adress::find($user->adress_id)->province_id)->name : "",
+                "bio"=>$user->bio ,
+                "category"=>$serv->subcategory->category->label ,
+                //"subcategory"=>$serv->subcategory->label ,
+                "service"=>$serv->label ,  ] ;
+              // "subcategory"=>$servs->subcategory->label  ,];
+            }
+              }
+          else
+          {
+            $listuser[] = [
+                "id"=>$user->id ,
+                "Active"=>$user->isActive ,
+                "EA"=> $user->isEmailActive ,
+                "firstname"=>$user->firstname ,
+                "lastname"=>$user->lastname ,
+                "email"=>$user->email ,
+                "role"=>$user->role ,
+                "logo"=>"https://backbottin.groupe3737.com/storage/image/".$user->logo ,
+                "IACNC" => $user->IACNC ,
+                "companyname"=>$user->username ,
+                "adresse" => $user->adress_id ?Adress::find($user->adress_id)->address ." ".Adress::find($user->adress_id)->city." ".Adress::find($user->adress_id)->code  : "",
+                "province" => $user->adress_id ?Province::find(Adress::find($user->adress_id)->province_id)->name : "",
+                "bio"=>$user->bio ,
+                "category"=>$serv->subcategory->category->label ,
+                //"subcategory"=>$serv->subcategory->label ,
+                "service"=>$serv->label ,
+
+
+
+    ] ;
+          }
+        //}
+
+          $result = array() ;
+          $result =  $listuser ;
+    }
+    $listusers = array();
+
+    if($state)
+    {$state =explode(",", $state);
+    //$result[] = collect($listuser)->whereIn('province',$state)->toArray();
+
+    foreach($listuser as $l )
+    {
+        if(in_array($l['province'], $state)&& $l['Active']==true)
+        {
+                $listusers[] = $l ;
+        }
+    }
+
+ }
+ else {
+
+    foreach($listuser as $l )
+    {
+        if($l['Active']==true  )
+        {
+                $listusers[] = $l ;
+        }
+    }
+  }
+  //  $listuser->toArray();
 }
+    // dump("serv",true , $listuser  ) ;
+    return response()->json(["Result" => $listusers] );
+    }
+
+
+
+
+}
+
